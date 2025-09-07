@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos/registro.css">
+    <link rel="stylesheet" href="estilos/stylesNav.css">
+    <link rel="shortcut icon" href="img/logoPng.png" type="image/x-icon">
+    <title>Chamba</title>
+</head>
+
+<body>
+
+
+    <nav id="menu">
+        <header class="logoDIV1">
+            <img class="logo" src="img/logopng.png" alt="">
+            <a href="index.html">
+                <h1>Chamba.com</h1>
+            </a>
+        </header>
+
+        <section class="LogoDIV2">
+            <div class="hamburguesa" onclick="toggleMenu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <ul id="navLinks">
+
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="about.html">Sobre</a></li>
+                <li><a href="contact.html">Contacto</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="iniciarsecion.html">Iniciar Sesion</a></li>
+            </ul>
+        </section>
+    </nav>
+
+
+
+    <section class="registro-seccion">
+        <form action="./backend/registro.php" method="post" id="registro"></form>
+            <h2>Registro</h2>
+
+            <div class="modal-nombre">
+                <input type="text" name="nombre" id="nombre" maxlength="30" minlength="3" title="Nombre de usuario"
+                    placeholder="Ingrese nombre" onkeydown="noEspacios(event)" required>
+
+                <input type="text" name="apellido" id="apellido" maxlength="30" minlength="3"
+                    title="Apellido de usuario" placeholder="Ingrese apellido" onkeydown="noEspacios(event)" required>
+
+            </div>
+
+            <div class="moodal-cedula">
+                <input class="cte" type="text" name="cedula" id="cedula" maxlength="30" minlength="3"
+                    title="cedula de usuario" placeholder="Ingrese Cedula" onkeydown="noEspacios(event)" required>
+
+                <input class="cte" type="text" name="telefono" id="telefono" maxlength="30" minlength="3"
+                    title="Telefono de usuario" placeholder="Ingrese Telefono" onkeydown="noEspacios(event)" required>
+
+                <input class="cte" type="number" name="edad" id="edad" maxlength="30" minlength="3"
+                    title="edad de usuario" placeholder="Ingrese edad" onkeydown="noEspacios(event)" required>
+            </div>
+
+
+
+
+            <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"
+                title="Ingrese un email válido" onkeydown="noEspacios(event)" required>
+
+            <div >
+                <input class="input11" type="password" name="passwordA" id="passwordA" maxlength="15" minlength="6"
+                    placeholder="Escribe contraseña" title="Escribe contraseña" onkeydown="noEspacios(event)"
+                    onblur="verificarPass()" required>
+
+                <span id="togglePassword"
+                    style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+
+            <div style="position: relative;">
+                <input class="input11" type="password" name="passwordB" id="passwordB" maxlength="15" minlength="6"
+                    placeholder="Verifica contraseña" title="Verifica contraseña" onkeydown="noEspacios(event)"
+                    onblur="verificarPass()" required>
+                     
+
+            </div>
+
+            <div id="mensaje"></div>
+
+            <button type="submit" id="enviar">Registrarse</button>
+        </form>
+    </section>
+
+
+
+  <script>
+        function toggleMenu() {
+            const nav = document.getElementById("navLinks");
+            nav.classList.toggle("show");
+        }
+    </script>
+
+
+
+
+</body>
+
+</html>

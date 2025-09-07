@@ -1,0 +1,56 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(255, 255, 255);
+}
+
+.h2{
+    font-size: 100px;
+    color: #476a30;
+    padding: 15px;
+}
+@media (max-width: 600px) {
+  .h2 {
+    font-size: 2rem;
+  }
+}
+
+p{
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    padding: 20px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    color: #476a30;
+    background: none;
+    padding: 10px;
+}
+
+.button-Registrarce{
+    color: #798C6C;
+    font-size: 1.15rem;
+    margin-top: 0.5rem;
+    padding: 1.5rem;
+    border: 1px solid #798C6C;
+    border-radius: 0.2rem;
+    transition: 0.5s;
+
+
+}
+
+.header{
+    background-color:#f1f1f1ed;
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
