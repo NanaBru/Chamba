@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="Estilos/stylesNAV.css">
+    <link rel="stylesheet" href="Estilos/iniciarsesion.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <nav id="menu">
+
+        <div class="logoDIV1">
+            <img class="logo" src="img/logopng.png" alt="">
+            <a href="index.html">
+                <h1>Chamba.com</h1>
+            </a>
+        </div>
+
+        <div class="LogoDIV2">
+            <div class="hamburguesa" onclick="toggleMenu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <ul id="navLinks">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="about.html">Sobre</a></li>
+                <li><a href="contact.html">Contacto</a></li>
+                <li><a href="registro.html">Registro</a></li>
+            </ul>
+        </div>
+
+
+    </nav>
+
+
+
+    <!-- iniciar sesion -->
+
+    <section class="registro-seccion">
+        <form action="../backend/iniciarsesion.php" method="post" id="formulario">
+            <h2>Iniciar sesión</h2>
+
+            <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"
+                title="Ingrese un email válido" onkeydown="noEspacios(event)" required>
+
+
+            <input class="input11" type="password" name="password" id="password" maxlength="15" minlength="6"
+                placeholder="Ingrese contraseña" title="Escribe contraseña" onkeydown="noEspacios(event)"
+                onblur="verificarPass()" required>
+
+
+
+
+            <div id="mensaje"></div>
+
+            <button type="submit" id="enviar">Iniciar sesión</button>
+        </form>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById("navLinks");
+            nav.classList.toggle("show");
+        }
+    </script>
+
+
+</body>
+
+</html>

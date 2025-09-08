@@ -9,28 +9,30 @@ body{
 }
 
 .h2{
+   
     font-size: 100px;
     color: #476a30;
     padding: 15px;
 }
 @media (max-width: 600px) {
   .h2 {
-    font-size: 2rem;
+    font-size: 5rem;
   }
 }
 
+
 p{
     font-size: 20px;
-    color: rgb(0, 0, 0);
+    color: #476a30;
     padding: 20px;
 }
 
 button {
     border: none;
     cursor: pointer;
-    color: #476a30;
+    color: #7aff21;
     background: none;
-    padding: 10px;
+    padding: 30px;
 }
 
 .button-Registrarce{
@@ -39,8 +41,8 @@ button {
     margin-top: 0.5rem;
     padding: 1.5rem;
     border: 1px solid #798C6C;
-    border-radius: 0.2rem;
-    transition: 0.5s;
+    border-radius: 0.5rem;
+    transition: 3s;
 
 
 }
@@ -51,6 +53,7 @@ button {
     height: 85vh;
     display: flex;
     justify-content: center;
+    text-align: center;
     align-items: center;
     flex-direction: column;
 }
