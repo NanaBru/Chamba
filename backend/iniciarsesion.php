@@ -24,13 +24,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar la contraseña encriptada
         if (password_verify($passwordIngresada, $passwordHash)) {
             $_SESSION["email"] = $email;
-            header("Location: confirmar.php");
+          
+            header("Location: perfil.php");
             exit();
         } else {
+            
             header("Location: rechazar.php");
             exit();
         }
     } else {
+        
         header("Location: rechazar.php");
         exit();
     }
@@ -38,6 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
     $conexion->close();
 } else {
-    echo "Acceso inválido.";
+    echo "Acceso inválido, No esta activa la Base de Datos :(";
 }
 ?>
