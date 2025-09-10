@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 nav{
 
@@ -28,7 +29,6 @@ a{
 h1{
     font-size: 30px;
     color: #67795c;
-
 }
 
 .logoDIV1{
@@ -56,7 +56,7 @@ nav ul li{
 
 nav ul li a{
     text-decoration: none;
-    color: rgb(0, 0, 0);
+    color: rgb(55, 88, 56);
 }
 
 
@@ -79,7 +79,6 @@ nav ul li a{
 /* Estilo normal de menú */
 #navLinks {
     display: flex;
-    gap: 20px;
     list-style: none;
 }
 
@@ -102,5 +101,10 @@ nav ul li a{
 
     .hamburguesa {
         display: flex;
+    }
+    h1{
+        font-size: 15px;
+        color: #67795c;
+
     }
 }
