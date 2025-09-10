@@ -9,9 +9,9 @@ if (!isset($_SESSION['email'])) {
 
 // Conexión a la BD
 $servername = "localhost";
-$username = "root";   // o el que uses
-$password = "";       // tu contraseña
-$dbname = "bdChamba";   // nombre de tu base de datos
+$username = "root";   
+$password = "";       
+$dbname = "bdChamba";  
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -22,12 +22,12 @@ if ($conn->connect_error) {
 
 $email = $_SESSION['email'];
 
-// Consultar datos del usuario logueado
+// Consultar datos del usuario logueado usando el email
 $sql = "SELECT Cedula, nombre, apellido, edad, telefono, email 
         FROM usuario 
-        WHERE Cedula = ?";
+        WHERE email = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $cedula);
+$stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -50,6 +50,8 @@ $conn->close();
     <link rel="stylesheet" href="../frontend/estilos/perfil.css">
 </head>
 <body>
+
+
 
     <h1>Perfil del Usuario</h1>
     <p><strong>Cédula:</strong> <?php echo $usuario['Cedula']; ?></p>

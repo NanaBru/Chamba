@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             
-            header("Location: rechazar.php");
+            header("Location: http://yotube.com/dQw4w9WgXcQ");
             exit();
         }
     } else {
@@ -38,8 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $stmt->close();
-    $conexion->close();
+   
 } else {
     echo "Acceso inválido, No esta activa la Base de Datos :(";
 }
