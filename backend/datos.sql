@@ -9,4 +9,14 @@ create table usuario(
     
 );
 
-
+CREATE TABLE publicaciones (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,
+    descripcion TEXT NOT NULL,
+    proveedor_cedula CHAR(8) NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_proveedor_cedula 
+        FOREIGN KEY (proveedor_cedula) 
+        REFERENCES usuario(Cedula) 
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

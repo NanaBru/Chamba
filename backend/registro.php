@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Conectar a la base de datos
     $conexion = new mysqli("localhost", "root", "", "bdChamba");
@@ -26,15 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql_check = "SELECT 1 FROM usuario WHERE nombre = '$nombre' OR email = '$email'";
     $resultado = $conexion->query($sql_check);
 
-    
-    /* 
-    SELECT 1 ese comando se usa para seleccionar datos de una base de datos.
-    Esta consulta selecciona el valor 1 para cada fila que coincide con la condición WHERE.
-    Se utiliza solo para verificar la existencia de registros.
-
-    FROM especifica la tabla desde la cual se deben recuperar los datos y
-    usuarios es el nombre de la tabla en la base de datos donde se buscarán los registros.
-    */
 
     if ($resultado->num_rows > 0) {
         // Redirigir si existe un usuario con el mismo nombre o correo
@@ -42,21 +35,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    //En PHP, num_rows > 0 se utiliza para verificar si una consulta SQL que devuelve resultados
-    //tiene al menos una fila.
 
     //Encriptar la contraseña e insertar el usuario en la base de datos
     $password_encriptada = password_hash($password, PASSWORD_BCRYPT);
     $sql_insert = "INSERT INTO usuario (nombre, apellido, cedula, edad, telefono, email, password) VALUES ('$nombre', '$apellido', '$cedula', '$edad', '$telefono', '$email', '$password_encriptada')";
 
-    //Verificar si el usuario se registró correctamente
-    if ($conexion->query($sql_insert) === TRUE) {
-        //$sql_insert contiene la consulta SQL que se desea ejecutar.
-        header("Location: confirmar.php");
-        exit();
-    }
 
-    // Cerrar la conexión
-    $conexion->close();
+    if ($conexion->query($sql_insert) === TRUE) {
+    // Guardar sesión del usuario
+    $_SESSION['email'] = $email;
+
+    // Redirigir al perfil
+    header("Location: ../backend/usuario/perfil.php");
+    exit();
+    
+}
+
+
+
 }
 

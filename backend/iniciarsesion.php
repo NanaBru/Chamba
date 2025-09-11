@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($passwordIngresada, $passwordHash)) {
             $_SESSION["email"] = $email;
           
-            header("Location: perfil.php");
+            header("Location: ../backend/app/inicio.php");
             exit();
         } else {
             

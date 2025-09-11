@@ -3,12 +3,13 @@
     padding: 0;
     box-sizing: border-box;
     
+    
 }
 nav{
 
     background-color: #eeece7;  
     width: 100%;
-    height: 15vh;
+    height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;

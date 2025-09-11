@@ -9,6 +9,7 @@
     <title>Confirmar</title>
     <link rel="shortcut icon" href="img/tick.png" type="image/x-icon">
     <style>
+        
         body {
             width: 100vw;
             height: 100vh;

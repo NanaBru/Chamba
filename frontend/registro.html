@@ -18,7 +18,7 @@
         <header class="logoDIV1">
             <img class="logo" src="img/logopng.png" alt="">
             <a href="../index.html">
-                <h1>Chamba</h1>
+                <h1 class="logoNombre">Chamba</h1>
             </a>
         </header>
 
@@ -60,11 +60,9 @@
                 <input class="cte" type="text" name="telefono" id="telefono" maxlength="30" minlength="3"
                     title="Telefono de usuario" placeholder="Telefono" onkeydown="noEspacios(event)" required>
 
-                <input class="cte" type="number" name="edad" id="edad" maxlength="30" minlength="3"
+                <input class="cte" type="number" name="edad" id="edad" min="18" max="99" maxlength="30" minlength="3"
                     title="edad de usuario" placeholder="Edad" onkeydown="noEspacios(event)" required>
             </div>
-
-
 
 
             <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"
