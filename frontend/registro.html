@@ -46,7 +46,7 @@
 
             <div class="modal-nombre">
                 <input type="text" name="nombre" id="nombre" maxlength="30" minlength="3" title="Nombre de usuario"
-                    placeholder="Nombre" onkeydown="noEspacios(event)" required>
+                    placeholder="Nombre" onkeydown="noEspacios(event), soloLetras(event)" required>
 
                 <input type="text" name="apellido" id="apellido" maxlength="30" minlength="3"
                     title="Apellido de usuario" placeholder="Apellido" onkeydown="noEspacios(event)" required>
@@ -54,32 +54,42 @@
             </div>
 
             <div class="moodal-cedula">
-                <input class="cte" type="text" name="cedula" id="cedula" maxlength="30" minlength="3"
-                    title="cedula de usuario" placeholder="Cedula" onkeydown="noEspacios(event)" required>
+                <input class="cte" type="text" name="cedula" id="cedula" maxlength="8" minlength="8"
+                    title="cedula de usuario" placeholder="Cedula" onkeydown="noEspacios(event)"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
 
-                <input class="cte" type="text" name="telefono" id="telefono" maxlength="30" minlength="3"
-                    title="Telefono de usuario" placeholder="Telefono" onkeydown="noEspacios(event)" required>
+                <input class="cte" type="text" name="telefono" id="telefono" maxlength="9" minlength="9"
+                    title="Telefono de usuario" placeholder="Telefono" onkeydown="noEspacios(event)"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
 
-                <input class="cte" type="number" name="edad" id="edad" min="18" max="99" maxlength="30" minlength="3"
-                    title="edad de usuario" placeholder="Edad" onkeydown="noEspacios(event)" required>
+                <input class="cte" type="text" name="edad" id="edad" min="18" max="99" maxlength="2" minlength="2"
+                    title="edad de usuario" placeholder="Edad" onkeydown="noEspacios(event)"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+
+                <select  class="cte" name="rol">
+                    <option value="Consumidor">Consumidor</option>
+                    <option value="Proveedor">Proveedor</option>
+                </select>
+
             </div>
+
 
 
             <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"
                 title="Ingrese un email válido" onkeydown="noEspacios(event)" required>
- 
-                <input class="input11" type="password" name="passwordA" id="passwordA" maxlength="15" minlength="6"
-                    placeholder="Escriba una contraseña" title="Escribe contraseña" onkeydown="noEspacios(event)"
-                    onblur="verificarPass()" required>
 
-            
-          
+            <input class="input11" type="password" name="passwordA" id="passwordA" maxlength="15" minlength="6"
+                placeholder="Escriba una contraseña" title="Escribe contraseña" onkeydown="noEspacios(event)"
+                onblur="verificarPass()" required>
 
-                <input class="input11" type="password" name="passwordB" id="passwordB" maxlength="15" minlength="6"
-                    placeholder="Verifica su contraseña" title="Verifica contraseña" onkeydown="noEspacios(event)"
-                    onblur="verificarPass()" required>
 
-            
+
+
+            <input class="input11" type="password" name="passwordB" id="passwordB" maxlength="15" minlength="6"
+                placeholder="Verifica su contraseña" title="Verifica contraseña" onkeydown="noEspacios(event)"
+                onblur="verificarPass()" required>
+
+
 
             <div id="mensaje"></div>
 
@@ -90,10 +100,23 @@
 
 
     <script>
+        function noEspacios(event) {
+            if (event.key === ' ' || event.key === 'Spacebar') {
+                event.preventDefault();
+            }
+        }
         function toggleMenu() {
             const nav = document.getElementById("navLinks");
             nav.classList.toggle("show");
         }
+        function soloLetras(event) {
+
+            if (/^[0-9]$/.test(event.key)) {
+
+                event.preventDefault();
+            }
+        }
+
     </script>
 
 

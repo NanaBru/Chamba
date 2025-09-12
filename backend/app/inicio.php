@@ -54,12 +54,23 @@ $conn->close();
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #476a30;
+            background: #eeece7;
             color: white;
-            padding: 15px;
+            
+            border: black, 1px solid;
         }
+        .logoDIV1 {
+    display: flex;
+    align-items: center;
+}
+        #menu .logo {
+    width: 80px;
+    height: auto;
+    padding: 10px;
+}
         nav h1 {
             margin-left: 10px;
+            color: #67795c;
         }
         #navLinks {
             list-style: none;
@@ -68,7 +79,7 @@ $conn->close();
         }
         #navLinks li a {
             text-decoration: none;
-            color: white;
+            color: #67795c;
             font-weight: bold;
         }
         .hamburguesa {
@@ -123,6 +134,7 @@ $conn->close();
 <body>
     <nav id="menu">
         <div class="logoDIV1">
+            <img class="logo" src="../../frontend/img/logopng.png" alt="">
             <h1 class="logoNombre">Chamba</h1>
         </div>
         <div class="LogoDIV2">

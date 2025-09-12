@@ -23,7 +23,7 @@ if ($conn->connect_error) {
 $email = $_SESSION['email'];
 
 // Consultar datos del usuario logueado usando el email
-$sql = "SELECT Cedula, nombre, apellido, edad, telefono, email 
+$sql = "SELECT Cedula, nombre, apellido, edad, telefono, email, rol
         FROM usuario 
         WHERE email = ?";
 $stmt = $conn->prepare($sql);
@@ -72,8 +72,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2f3640;
-    padding: 10px 20px;
+    background-color: #eeece7;
     color: #fff;
 }
 
@@ -83,14 +82,15 @@ body {
 }
 
 #menu .logo {
-    width: 50px;
-    margin-right: 10px;
+    width: 80px;
+    height: auto;
 }
 
 #menu .logoNombre {
     font-size: 1.5rem;
     color: #fff;
     text-decoration: none;
+    color: #67795c;
 }
 
 #navLinks {
@@ -104,6 +104,7 @@ body {
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
+    color: #67795c;
 }
 
 #navLinks li a:hover {
@@ -208,6 +209,7 @@ h2 {
     <p><strong>Edad:</strong> <?php echo $usuario['edad']; ?></p>
     <p><strong>Teléfono:</strong> <?php echo $usuario['telefono']; ?></p>
     <p><strong>Email:</strong> <?php echo $usuario['email']; ?></p>
+    <p><strong>Rol:</strong> <?php echo $usuario['rol']; ?></p>
 
     <a href="editarPerfil.php">Editar Perfil</a>
 </div>
