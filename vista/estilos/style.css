@@ -5,6 +5,10 @@
     overflow-x: hidden;
 }
 
+body{
+    background-color: rgb(0, 0, 0);
+}
+
 
 .h2{
    
@@ -18,7 +22,6 @@
   }
 }
 
-
 .p{
     font-size: 20px;
     color: #476a30;
@@ -28,7 +31,7 @@
 button {
     border: none;
     cursor: pointer;
-    color: #7aff21;
+    
     background: none;
     padding: 30px;
 }
