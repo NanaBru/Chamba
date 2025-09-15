@@ -10,12 +10,11 @@
     src: url(font/Montserrat.ttf);
 }
 
-body {
-    background-color: #f1f1f1ed;
-}
+
 
 .registro-seccion {
     display: flex;
+    height: 80vh;
     align-items: center;
     flex-direction: column;
     margin-top: 10px;
@@ -40,8 +39,6 @@ form {
     max-width: 500px;
     height: auto;
 }
-
-
 
 
 .modal-nombre {

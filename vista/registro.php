@@ -1,47 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="estilos/registro.css">
-    <link rel="stylesheet" href="estilos/stylesNav.css">
+    <link rel="stylesheet" href="../vista/estilos/stylesNav.css">
+    <link rel="stylesheet" href="../vista/estilos/registro.css">
+    <link rel="stylesheet" href="../vista/estilos/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="shortcut icon" href="img/logopng.png" type="image/x-icon">
-    <title>Chamba</title>
+    <link rel="shortcut icon" href="../vista/img/logopng.png" type="image/x-icon">
+    <title>Registro</title>
 </head>
-
 <body>
+    
+    <?php include __DIR__ . '/secciones/nav.php'; ?>
 
-
-    <nav id="menu">
-        <header class="logoDIV1">
-            <img class="logo" src="img/logopng.png" alt="">
-            <a href="../index.html">
-                <h1 class="logoNombre">Chamba</h1>
-            </a>
-        </header>
-
-        <section class="LogoDIV2">
-            <div class="hamburguesa" onclick="toggleMenu()">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <ul id="navLinks">
-
-                <li><a href="../index.html">Inicio</a></li>
-                <li><a href="https://youtu.be/dQw4w9WgXcQ">Sobre</a></li>
-                <li><a href="https://youtu.be/dQw4w9WgXcQ">Contacto</a></li>
-                <li><a href="iniciarsesion.html">Iniciar Sesion</a></li>
-            </ul>
-        </section>
-    </nav>
-
-
-
-    <section class="registro-seccion">
-        <form action="../backend/registro.php" method="post" id="formulario">
+     <section class="registro-seccion">
+        <form action="../controlador/registroControler.php" method="post" id="formulario">
             <h2>Registro</h2>
 
             <div class="modal-nombre">
@@ -54,9 +28,6 @@
             </div>
 
             <div class="moodal-cedula">
-                <input class="cte" type="text" name="cedula" id="cedula" maxlength="8" minlength="8"
-                    title="cedula de usuario" placeholder="Cedula" onkeydown="noEspacios(event)"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
 
                 <input class="cte" type="text" name="telefono" id="telefono" maxlength="9" minlength="9"
                     title="Telefono de usuario" placeholder="Telefono" onkeydown="noEspacios(event)"
@@ -66,14 +37,7 @@
                     title="edad de usuario" placeholder="Edad" onkeydown="noEspacios(event)"
                     oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
 
-                <select  class="cte" name="rol">
-                    <option value="Consumidor">Consumidor</option>
-                    <option value="Proveedor">Proveedor</option>
-                </select>
-
             </div>
-
-
 
             <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"
                 title="Ingrese un email válido" onkeydown="noEspacios(event)" required>
@@ -82,14 +46,9 @@
                 placeholder="Escriba una contraseña" title="Escribe contraseña" onkeydown="noEspacios(event)"
                 onblur="verificarPass()" required>
 
-
-
-
             <input class="input11" type="password" name="passwordB" id="passwordB" maxlength="15" minlength="6"
                 placeholder="Verifica su contraseña" title="Verifica contraseña" onkeydown="noEspacios(event)"
                 onblur="verificarPass()" required>
-
-
 
             <div id="mensaje"></div>
 
@@ -98,30 +57,7 @@
     </section>
 
 
-
-    <script>
-        function noEspacios(event) {
-            if (event.key === ' ' || event.key === 'Spacebar') {
-                event.preventDefault();
-            }
-        }
-        function toggleMenu() {
-            const nav = document.getElementById("navLinks");
-            nav.classList.toggle("show");
-        }
-        function soloLetras(event) {
-
-            if (/^[0-9]$/.test(event.key)) {
-
-                event.preventDefault();
-            }
-        }
-
-    </script>
-
-
-
-
+    <script src="../vista/js/script.js"></script>
+    
 </body>
-
 </html>

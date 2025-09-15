@@ -6,46 +6,17 @@
     <meta name="viewport" content="width=, initial-scale=1.0">
     <link rel="stylesheet" href="estilos/stylesNav.css">
     <link rel="stylesheet" href="estilos/iniciarsesion.css">
+    <link rel="stylesheet" href="estilos/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="shortcut icon" href="img/logopng.png" type="image/x-icon">
-    <title>Document</title>
+    <title>Iniciar Sesión</title>
 </head>
 
 <body>
-
-
-    <nav id="menu">
-
-        <div class="logoDIV1">
-            <img class="logo" src="img/logopng.png" alt="">
-            <a href="../index.html">
-                <h1 class="logoNombre">Chamba</h1>
-            </a>
-        </div>
-
-        <div class="LogoDIV2">
-            <div class="hamburguesa" onclick="toggleMenu()">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <ul id="navLinks">
-                <li><a href="../index.html">Inicio</a></li>
-                <li><a href="https://youtu.be/dQw4w9WgXcQ">Sobre</a></li>
-                <li><a href="https://youtu.be/dQw4w9WgXcQ">Contacto</a></li>
-                <li><a href="registro.html">Registro</a></li>
-            </ul>
-        </div>
-
-
-    </nav>
-
-
-
-    <!-- iniciar sesion -->
+<?php include __DIR__ . '/secciones/nav.php'; ?>
 
     <section class="registro-seccion">
-        <form action="../backend/iniciarsesion.php" method="post" id="formulario">
+        <form action="../controlador/sesionControler.php" method="post" id="formulario">
             <h2>Iniciar sesión</h2>
 
             <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"
@@ -65,12 +36,7 @@
         </form>
     </section>
 
-    <script>
-        function toggleMenu() {
-            const nav = document.getElementById("navLinks");
-            nav.classList.toggle("show");
-        }
-    </script>
+    <script src="../vista/js/script.js"></script>
 
 
 </body>

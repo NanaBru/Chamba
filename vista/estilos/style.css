@@ -5,9 +5,6 @@
     overflow-x: hidden;
 }
 
-body{
-    background-color: rgb(255, 255, 255);
-}
 
 .h2{
    
@@ -22,7 +19,7 @@ body{
 }
 
 
-p{
+.p{
     font-size: 20px;
     color: #476a30;
     padding: 20px;
@@ -43,15 +40,23 @@ button {
     padding: 1.5rem;
     border: 1px solid #798C6C;
     border-radius: 0.5rem;
-    transition: 3s;
+    transition: 0.3s;
 
 
 }
 
+/* Efecto hover */
+.button-Registrarce:hover {
+    background-color: #798C6C;   /* Fondo se pinta */
+    color: white;                /* Texto blanco */
+    transform: scale(1.05);      /* Se agranda un poquito */
+}
+
 .header{
-    background-color:#f1f1f1ed;
+    background-color:#f1f1f1;
     width: 100%;
-    height: 85vh;
+    max-width: 100vw;
+    height: 80vh;
     display: flex;
     justify-content: center;
     text-align: center;
