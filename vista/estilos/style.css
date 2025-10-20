@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
+    
 }
 
 body{
@@ -31,7 +31,6 @@ body{
 button {
     border: none;
     cursor: pointer;
-    
     background: none;
     padding: 30px;
 }
@@ -44,7 +43,6 @@ button {
     border: 1px solid #798C6C;
     border-radius: 0.5rem;
     transition: 0.3s;
-
 
 }
 

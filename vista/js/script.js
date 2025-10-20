@@ -16,3 +16,10 @@ function soloLetras(event) {
                 event.preventDefault();
             }
 }
+
+function mostrarNotificacion() {
+   
+    alert("Función en desarrollo");
+    header("Location: ../vista/usuario/perfil.php");
+    
+}

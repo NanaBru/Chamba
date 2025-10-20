@@ -1,3 +1,10 @@
+CREATE DATABASE IF NOT EXISTS chambaBD
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+
+USE chambaBD;
+
+
 CREATE TABLE usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
@@ -5,7 +12,11 @@ CREATE TABLE usuario (
     edad INT,
     telefono VARCHAR(20) UNIQUE,
     email VARCHAR(100) UNIQUE,
-    password VARCHAR(255)
+    password VARCHAR(255),
+    foto_perfil VARCHAR(255),
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ultima_modificasion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    
 );
 
 CREATE TABLE publicaciones (
@@ -18,7 +29,6 @@ CREATE TABLE publicaciones (
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
-
 
 
 /* CREATE DATABASE IF NOT EXISTS chambaBD

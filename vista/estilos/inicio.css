@@ -6,56 +6,9 @@
 }
 
 body {
-    background: #f4f4f4;
+    background: #eaeaea;
 }
 
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #eeece7;
-    border: 1px solid black;
-}
-
-.logoDIV1 {
-    display: flex;
-    align-items: center;
-}
-
-#menu .logo {
-    width: 60px;
-    height: auto;
-}
-
-nav h1 {
-    margin-left: 10px;
-    color: #67795c;
-}
-
-#navLinks {
-
-    display: flex;
-    gap: 15px;
-}
-
-#navLinks li a {
-    text-decoration: none;
-    color: #67795c;
-    
-}
-
-.hamburguesa {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-}
-
-.hamburguesa div {
-    width: 25px;
-    height: 3px;
-    background: white;
-    margin: 4px;
-}
 
 main {
     padding: 20px;
@@ -92,26 +45,7 @@ main {
 }
 
 
-
-@media (max-width:768px) {
-    #navLinks {
-        display: none;
-        flex-direction: column;
-        background: #476a30;
-        padding: 10px;
-    }
-
-    #navLinks.show {
-        display: flex;
-    }
-
-    .hamburguesa {
-        display: flex;
-    }
-}
-
-
-/* Estilos para las publicaciones */
+/* resto de tus estilos para .publicaciones y .card iguales */
 .publicaciones {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -129,7 +63,6 @@ main {
     cursor: pointer;
     position: relative;
 }
-
 
 .card::before {
     content: '';
@@ -152,7 +85,6 @@ main {
     width: 100%;
     height: 200px;
     object-fit: cover;
-  
 }
 
 .card h4 {
@@ -189,7 +121,6 @@ main {
     border-top: 1px solid #eee;
 }
 
-/* Efecto overlay al hacer hover */
 .card::after {
     content: '';
     position: absolute;
@@ -197,7 +128,6 @@ main {
     left: 0;
     right: 0;
     bottom: 0;
-
     opacity: 0;
     transition: opacity 0.1s ease;
     z-index: 2;
@@ -208,14 +138,12 @@ main {
     opacity: 1;
 }
 
-/* Texto que aparece al hacer hover */
 .card .hover-text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    
     font-size: 1.2rem;
     opacity: 0;
     transition: opacity 0.1s ease;
@@ -228,13 +156,12 @@ main {
     opacity: 1;
 }
 
-/* Estilos responsivos */
 @media (max-width: 768px) {
     .publicaciones {
         grid-template-columns: 1fr;
         padding: 10px;
     }
-    
+
     .card {
         margin-bottom: 15px;
     }

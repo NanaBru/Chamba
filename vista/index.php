@@ -18,9 +18,10 @@
     <?php include __DIR__ . '/secciones/header.php'; ?>
 
     <?php include __DIR__ . '/secciones/footer.php'; ?>
+
+
     
     <script src="../vista/js/script.js"></script>
-
 
 
 </body>

@@ -30,17 +30,6 @@ h2 {
 
 
 
-p {
-    color: #ffffff;
-    font-size: 1.15rem;
-    margin-top: 0.5rem;
-    padding: 1.5rem;
-    border: 1px solid white;
-    border-radius: 0.2rem;
-    transition: 0.5s;
-
-
-}
 
 
 .registro {
@@ -103,10 +92,4 @@ button {
     border-radius: 0.3rem;
     background: #476a30;
 
-}
-
-@media (max-width: 600px) {
-    .registro-seccion {
-        font-size: 2rem;
-    }
 }

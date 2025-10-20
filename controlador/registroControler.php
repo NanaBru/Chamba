@@ -17,7 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: ../vista/usuario/perfil.php");
         exit();
     } else {
-        header("Location: ../backend/rechazar.php");
+        header("Location: ../vista/registro.php?error=" . urlencode("Correo o teléfono ya están registrados"));
         exit();
     }
+    
 }

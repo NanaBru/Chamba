@@ -18,6 +18,7 @@ class Usuario {
 
         if ($resultado->num_rows > 0) {
             return false; // Ya existe un usuario con ese teléfono o email
+            
         }
 
         // Encriptar contraseña e insertar el usuario

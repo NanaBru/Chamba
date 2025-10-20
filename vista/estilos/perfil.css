@@ -12,65 +12,7 @@ body {
     padding-bottom: 50px;
 }
 
-#menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #eeece7;
-    color: #fff;
-    padding: 10px 20px;
-    position: relative;
-}
 
-#menu .logoDIV1 {
-    display: flex;
-    align-items: center;
-}
-
-#menu .logo {
-    width: 60px;
-    height: auto;
-}
-
-#menu .logoNombre {
-    font-size: 30px;
-    color: #67795c;
-    text-decoration: none;
-}
-
-.LogoDIV2 {
-    position: relative;
-}
-
-.hamburguesa {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    padding: 5px;
-}
-
-.hamburguesa div {
-    width: 25px;
-    height: 3px;
-    background-color: #67795c;
-    margin: 3px 0;
-    transition: 0.3s;
-}
-
-#navLinks {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-#navLinks li a {
-    color: #67795c;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-    padding: 5px 10px;
-    border-radius: 4px;
-}
 
 h2 {
     text-align: center;
@@ -181,58 +123,4 @@ h2 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
-
-/* Estilos para el menú hamburguesa en móviles */
-@media (max-width: 768px) {
-    .hamburguesa {
-        display: flex;
-    }
-    
-    #navLinks {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: #eeece7;
-        width: 200px;
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-        padding: 15px;
-        z-index: 1000;
-        border-radius: 8px;
-        gap: 15px;
-    }
-    
-    #navLinks.show {
-        display: flex;
-    }
-    
-    #navLinks li {
-        margin: 5px 0;
-    }
-    
-    .profile-container {
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-        gap: 20px;
-    }
-    
-    .profile-content {
-        max-width: 100%;
-    }
-}
-
-/* Animación para el icono hamburguesa cuando está activo */
-.hamburguesa.active div:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
-}
-
-.hamburguesa.active div:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburguesa.active div:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
 }

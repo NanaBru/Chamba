@@ -23,20 +23,19 @@
                     placeholder="Nombre" onkeydown="noEspacios(event), soloLetras(event)" required>
 
                 <input type="text" name="apellido" id="apellido" maxlength="30" minlength="3"
-                    title="Apellido de usuario" placeholder="Apellido" onkeydown="noEspacios(event)" required>
+                    title="Apellido de usuario" placeholder="Apellido" onkeydown="noEspacios(event), soloLetras(event)" required>
 
             </div>
 
-            <div class="moodal-cedula">
+            <div class="modal-nombre">
 
-                <input class="cte" type="text" name="telefono" id="telefono" maxlength="9" minlength="9"
+                <input type="text" name="telefono" id="telefono" maxlength="9" minlength="9"
                     title="Telefono de usuario" placeholder="Telefono" onkeydown="noEspacios(event)"
                     oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
 
-                <input class="cte" type="text" name="edad" id="edad" min="18" max="99" maxlength="2" minlength="2"
+                <input  type="number" name="edad" id="edad" min="18" max="99" maxlength="2" minlength="2"
                     title="edad de usuario" placeholder="Edad" onkeydown="noEspacios(event)"
                     oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
-
             </div>
 
             <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"
@@ -50,12 +49,17 @@
                 placeholder="Verifica su contraseña" title="Verifica contraseña" onkeydown="noEspacios(event)"
                 onblur="verificarPass()" required>
 
-            <div id="mensaje"></div>
-
+            
+            <?php if (!empty($_GET['error'])): ?>
+                <div class="mensaje-error" style="color:red; margin-bottom:10px;">
+                <?php echo htmlspecialchars($_GET['error']); ?>
+                </div>
+            <?php endif; ?>
+                
             <button type="submit" id="enviar">Registrarse</button>
+            <a style="margin-top: 10px;" href="../vista/sesion.php">¿Ya tienes una cuenta?</a>
         </form>
     </section>
-
 
     <script src="../vista/js/script.js"></script>
     

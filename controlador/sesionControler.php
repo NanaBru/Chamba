@@ -13,9 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: ../vista/app/inicio.php");
         exit();
     } else {
-        header("Location: ../backend/rechazar.php");
+         header("Location: ../vista/sesion.php?error=" . urlencode("Correo o contraseña incorrectos"));
         exit();
     }
+    
 } else {
     // si alguien entra directo sin POST
     header("Location: ../vista/sesion.php");

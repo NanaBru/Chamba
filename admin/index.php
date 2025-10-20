@@ -4,21 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
-    <link rel="stylesheet" href="estilos/stylesNav.css">
-    <link rel="stylesheet" href="estilos/iniciarsesion.css">
-    <link rel="stylesheet" href="estilos/footer.css">
-   
+    <link rel="stylesheet" href="../vista/estilos/stylesNav.css">
+    <link rel="stylesheet" href="../vista/estilos/iniciarsesion.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="shortcut icon" href="img/logopng.png" type="image/x-icon">
     <title>Iniciar Sesión</title>
 </head>
 
 <body>
-<?php include __DIR__ . '/secciones/nav.php'; ?>
+
 
     <section class="registro-seccion">
-        <form action="../controlador/sesionControler.php" method="post" id="formulario">
-            <h2>Iniciar sesión</h2>
+        <form action="../controlador/" method="post" id="formulario">
+            <h2>Administrador <br> Chamba</h2>
 
             <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"
                 title="Ingrese un email válido" onkeydown="noEspacios(event)" required>
@@ -39,10 +37,7 @@
         </form>
     </section>
 
-    
     <script src="../vista/js/script.js"></script>
 
-
 </body>
-
 </html>

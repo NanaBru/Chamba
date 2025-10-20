@@ -1,10 +1,14 @@
 <?php
 class Conexion {
     public static function getConexion() {
-        $conexion = new mysqli("localhost", "root", "", "chambaBD");
+        $conexion = @new mysqli("localhost", "root", "", "chambaBD");
+
         if ($conexion->connect_error) {
-            die("Error de conexión: " . $conexion->connect_error);
+            throw new Exception("Error de conexión: " . $conexion->connect_error);
         }
+
+        $conexion->set_charset("utf8mb4");
+
         return $conexion;
     }
 }

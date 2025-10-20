@@ -14,10 +14,12 @@
         </div>
         <ul id="navLinks">
             <li><a href="index.php">Inicio</a></li>
-            <li><a href="https://youtu.be/dQw4w9WgXcQ">Sobre</a></li>
-            <li><a href="https://youtu.be/dQw4w9WgXcQ">Contacto</a></li>
+            <li><a href="#" onclick="mostrarNotificacion()" >Sobre</a></li>
+            <li><a href="#" onclick="mostrarNotificacion()" >Contacto</a></li>
             <li><a href="registro.php">Registrarse</a></li>
             <li><a href="sesion.php">Iniciar Sesión</a></li>
         </ul>
     </div>
 </nav>
+
+<script src="../js/script.js"></script>

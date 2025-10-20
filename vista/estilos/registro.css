@@ -1,5 +1,6 @@
 * {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
     font-family: Montserrat;
 }
@@ -9,9 +10,10 @@
     font-family: Montserrat;
     src: url(font/Montserrat.ttf);
 }
+body {
+    background-color: #f1f1f1;
 
-
-
+}
 .registro-seccion {
     display: flex;
     height: 80vh;
@@ -21,7 +23,6 @@
 
 
 }
-
 
 h2 {
     font-size: 60px;
@@ -36,7 +37,7 @@ form {
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
-    max-width: 500px;
+    max-width: 450px;
     height: auto;
 }
 
@@ -48,8 +49,8 @@ form {
     width: 100%;
     max-width: 500px;
     height: 3em;
+    margin: 5px;
     
-
 }
 
 /* Cedula, telefono y edad */
@@ -64,17 +65,6 @@ form {
 .cte {
     width: 100%;
     height: 3em;
-}
-select{
-    width: 100%;
-    height: auto;
-    max-width: 500px;
-    color: gray;
-    margin-top: 0.8rem;
-    border-radius: 0.3rem;
-    border: 1px solid grey;
-    font-size: 1rem;
-    text-align: center;
 }
 
 
@@ -97,6 +87,7 @@ input {
     height: 3em;
 
 }
+
 input:hover,
 input:focus {
     outline: none;
@@ -108,6 +99,11 @@ button {
     cursor: pointer;
     background: none;
     font-size: 25px;
+}
+button:hover {
+    background-color: #476a30;
+    color: white;
+
 }
 
 #enviar {
