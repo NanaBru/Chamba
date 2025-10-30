@@ -1,0 +1,170 @@
+/* Reset y base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #eaeaea;
+}
+
+main {
+  padding: 20px;
+}
+
+/* Grid de publicaciones */
+.publicaciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Tarjetas */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  position: relative;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+/* Overlay suave */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.03);
+  opacity: 0;
+  transition: opacity .3s ease;
+  z-index: 1;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* Imagen */
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Título */
+.card h4 {
+  padding: 15px 15px 5px;
+  color: #476a30;
+  font-size: 1.2rem;
+  line-height: 1.25;
+  margin: 0;
+}
+
+/* Precio */
+.card .precio {
+  display: inline-block;
+  padding: 4px 10px;
+  background-color: #476a30;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 4px;
+  margin: 0 15px 10px;
+  font-size: 1.05rem;
+}
+
+/* Descripción */
+.card p {
+  padding: 0 15px;
+  color: #555;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+/* Pie */
+.card small {
+  display: block;
+  padding: 10px 15px;
+  background-color: #f5f6fa;
+  color: #777;
+  font-size: .85rem;
+  border-top: 1px solid #eee;
+}
+
+/* Hover overlay + texto */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .1s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.card .hover-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.1rem;
+  opacity: 0;
+  transition: opacity .1s ease;
+  z-index: 3;
+  text-align: center;
+  width: 80%;
+  pointer-events: none;
+}
+
+.card:hover .hover-text {
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .publicaciones {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card img {
+    height: 190px;
+  }
+}
+/* Estrellas de calificación */
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 8px 15px 4px;
+}
+.stars .star {
+  font-size: 1.05rem;
+  line-height: 1;
+  color: #f5b301; /* dorado */
+  text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+}
+.stars .star.empty {
+  color: #ddd; /* gris claro para vacías */
+}
+.stars .rating-num {
+  margin-left: 4px;
+  font-size: .9rem;
+  color: #666;
+}
