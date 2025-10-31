@@ -79,7 +79,7 @@
             </div>
 
             <div class="acciones">
-                <button class="btn-contactar">Contactar</button>
+                <a href="/chamba/web/router.php?page=chat&contacto=<?= $publicacion['usuario_id'] ?>" class="btn-contactar">Contactar</a>
                 <a href="/chamba/web/router.php?page=inicio" class="btn-volver">Volver al inicio</a>
             </div>
         </div>

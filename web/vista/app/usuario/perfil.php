@@ -24,6 +24,7 @@
         </div>
         <ul id="navLinks">
             <li><a href="/chamba/web/router.php?page=inicio">Inicio</a></li>
+            <li><a href="/chamba/web/router.php?page=chat">Chat</a></li>
             <li><a href="/chamba/web/router.php?page=crear-publicacion">Crear Publicación</a></li>
             <li><a href="/chamba/web/vista/app/usuario/logout.php">Cerrar Sesión</a></li>
         </ul>

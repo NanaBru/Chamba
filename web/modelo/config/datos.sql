@@ -54,6 +54,18 @@ CREATE TABLE mensajes (
     FOREIGN KEY (receptor_id) REFERENCES usuario(id) ON DELETE CASCADE
 );
 
+CREATE TABLE solicitudes_resena (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    publicacion_id INT NOT NULL,
+    proveedor_id INT NOT NULL,
+    cliente_id INT NOT NULL,
+    estado ENUM('pendiente', 'completada', 'rechazada') DEFAULT 'pendiente',
+    fecha_solicitud TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id) ON DELETE CASCADE,
+    FOREIGN KEY (proveedor_id) REFERENCES usuario(id) ON DELETE CASCADE,
+    FOREIGN KEY (cliente_id) REFERENCES usuario(id) ON DELETE CASCADE,
+    UNIQUE KEY solicitud_unica (publicacion_id, cliente_id)
+);
 
 /* CREATE DATABASE IF NOT EXISTS chambaBD
   DEFAULT CHARACTER SET utf8mb4

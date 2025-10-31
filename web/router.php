@@ -38,11 +38,21 @@ switch ($page) {
     require_once __DIR__ . '/controlador/editarPerfilControler.php';
     break;
 
+    case 'chat':
+    require_once __DIR__ . '/controlador/chatController.php';
+    break;
+
+
 
     case 'mensajeria':
         require_once __DIR__ . '/controlador/mensajeriaControler.php';
         require_once __DIR__ . '/vista/mensajeria.php';
         break;
+    
+    case 'mis-solicitudes':
+    require_once __DIR__ . '/controlador/misSolicitudesController.php';
+    break;
+
 
     default:
         http_response_code(404);

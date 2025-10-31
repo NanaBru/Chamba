@@ -47,6 +47,7 @@
             <li><a href="/chamba/web/router.php?page=inicio">Inicio</a></li>
             <?php if(isset($_SESSION['usuario_id'])): ?>
                 <li><a href="/chamba/web/router.php?page=perfil">Perfil</a></li>
+                <li><a href="/chamba/web/router.php?page=chat">Chat</a></li>
                 <li><a href="/chamba/web/router.php?page=crear-publicacion">Crear Publicación</a></li>
                 <li><a href="/chamba/web/vista/app/usuario/logout.php">Cerrar Sesión</a></li>
             <?php else: ?>
@@ -221,6 +222,36 @@ document.addEventListener('click', function(e) {
         closeAllLists();
     }
 });
+
+function toggleMenu() {
+            const nav = document.getElementById("navLinks");
+            nav.classList.toggle("show");
+        }
+
+function noEspacios(event) {
+            if (event.key === ' ' || event.key === 'Spacebar') {
+                event.preventDefault();
+            } 
+}
+       
+function soloLetras(event) {
+
+         if (/^[0-9]$/.test(event.key)) {
+
+                event.preventDefault();
+            }
+}
+
+function mostrarNotificacion() {
+   
+    alert("Función en desarrollo");
+    header("Location: ../vista/usuario/perfil.php");
+    
+}
+
+
 </script>
+
+
 
 </html>
