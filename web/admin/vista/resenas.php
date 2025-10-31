@@ -3,7 +3,7 @@
 <?php endif; ?>
 
 <div class="table-card">
-    <h3>⭐ Reseñas Publicadas (<?= count($resenas) ?>)</h3>
+    <h3>Reseñas Publicadas (<?= count($resenas) ?>)</h3>
     
     <div class="table-responsive">
         <table class="data-table">

@@ -62,7 +62,7 @@
 
 <!-- Tabla de usuarios -->
 <div class="table-card">
-    <h3>📋 Lista de Usuarios (<?= count($usuarios) ?>)</h3>
+    <h3>Lista de Usuarios (<?= count($usuarios) ?>)</h3>
     <div class="table-responsive">
         <table class="data-table">
             <thead>

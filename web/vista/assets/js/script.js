@@ -19,7 +19,7 @@ function soloLetras(event) {
 
 function mostrarNotificacion() {
    
-    alert("Función en desarrollo");
+    alert("Contactanos por correo: chambaserviciosuy@gmail.com");
     header("Location: ../vista/usuario/perfil.php");
     
 }

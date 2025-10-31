@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #476a30 0%, #5a8438 50%, #6b9b47 100%);
+    background: linear-gradient(135deg, #293a1e 0%, #395323 50%, #4f7134 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -98,7 +98,7 @@ button:hover {
     display: block;
     text-align: center;
     margin-top: 20px;
-    color: #476a30;
+    color: #476a30 ;
     text-decoration: none;
     font-weight: 600;
 }

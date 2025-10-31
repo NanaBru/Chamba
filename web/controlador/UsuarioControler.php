@@ -13,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     switch ($accion) {
         case 'registro':
-            $nombre   = $_POST['nombre']   ?? '';
-            $apellido = $_POST['apellido'] ?? '';
-            $edad     = $_POST['edad']     ?? '';
-            $telefono = $_POST['telefono'] ?? '';
-            $email    = $_POST['email']    ?? '';
-            $password = $_POST['password'] ?? '';
+            $nombre   = trim($_POST['nombre']   ?? '');
+            $apellido = trim($_POST['apellido'] ?? '');
+            $edad     = (int)($_POST['edad']    ?? 0);
+            $telefono = trim($_POST['telefono'] ?? '');
+            $email    = trim($_POST['email']    ?? '');
+            $password = trim($_POST['password'] ?? '');
 
             $resultado = $usuarioModel->registrarUsuario($nombre, $apellido, $edad, $telefono, $email, $password);
 
@@ -31,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         case 'login':
-            $email    = $_POST['email']    ?? '';
-            $password = $_POST['password'] ?? '';
+            $email    = trim($_POST['email']    ?? '');
+            $password = trim($_POST['password'] ?? '');
 
             $usuario = $usuarioModel->iniciarSesion($email, $password);
 
@@ -40,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['nombre']     = $usuario['nombre'];
                 $_SESSION['email']      = $usuario['email'];
+                // Si quieres guardar rol para panel admin, añade:
+                $_SESSION['rol']        = $usuario['rol'] ?? 'usuario';
                 header('Location: /chamba/web/router.php?page=inicio');
                 exit;
             } else {

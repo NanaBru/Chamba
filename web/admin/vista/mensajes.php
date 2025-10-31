@@ -3,7 +3,7 @@
 <?php endif; ?>
 
 <div class="table-card">
-    <h3>💬 Mensajes Recientes (<?= count($mensajes) ?>)</h3>
+    <h3>Mensajes Recientes (<?= count($mensajes) ?>)</h3>
     <p class="info-text">Mostrando los últimos 500 mensajes del sistema</p>
     
     <div class="table-responsive">

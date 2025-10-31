@@ -21,7 +21,7 @@ body {
 /* ========== SIDEBAR ========== */
 .sidebar {
     width: 260px;
-    background: linear-gradient(180deg, var(--verde-principal) 0%, var(--verde-hover) 50%, var(--verde-claro) 100%);
+    background: linear-gradient(135deg, #364d22, #6b9b47);
     color: white;
     position: fixed;
     height: 100vh;

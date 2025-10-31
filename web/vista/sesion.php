@@ -23,8 +23,9 @@ if (isset($_SESSION['email'])) {
 <body>
     <?php include __DIR__ . '/secciones/nav.php'; ?>
     <section class="registro-seccion">
-        <form action="/chamba/web/controlador/UsuarioControler.php" method="post">
-            <input type="hidden" name="accion" value="login">
+        <form action="/chamba/web/router.php?page=sesion" method="post">
+
+            
             <h2>Iniciar sesión</h2>
 
             <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"

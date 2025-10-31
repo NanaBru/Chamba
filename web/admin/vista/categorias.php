@@ -12,7 +12,7 @@
 
 <!-- Formulario crear categoría -->
 <div class="form-card">
-    <h3>➕ Crear Nueva Categoría</h3>
+    <h3>Crear Nueva Categoría</h3>
     <form method="post" class="admin-form">
         <input type="hidden" name="crear_categoria" value="1">
         

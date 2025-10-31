@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 <div class="login-container">
     <div class="login-box">
-        <h1>🔐 Panel de Administrador</h1>
+        <h1>Panel de Administrador</h1>
         <p>Chamba - Sistema de Gestión</p>
         
         <?php if ($error): ?>

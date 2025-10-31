@@ -13,14 +13,13 @@ switch ($page) {
         break;
 
     case 'registro':
-        // Si tienes controlador úsalo; si no, carga la vista directa
-        require_once __DIR__ . '/vista/registro.php';
-        break;
+    require_once __DIR__ . '/controlador/registroController.php';
+    break;
 
     case 'sesion':
-        // Importante: NO pongas '/web/vista/...'; __DIR__ ya está en /web
-        require_once __DIR__ . '/vista/sesion.php';
-        break;
+    require_once __DIR__ . '/controlador/sesionController.php';
+    break;
+
 
     case 'crear-publicacion':
     require_once __DIR__ . '/controlador/crearpubliControler.php';

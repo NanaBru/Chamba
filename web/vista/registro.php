@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../vista/assets/estilos/stylesNav.css">
-    <link rel="stylesheet" href="../vista/assets/estilos/registro.css">
-    <link rel="stylesheet" href="../vista/assets/estilos/footer.css">
+    <link rel="stylesheet" href="/chamba/web/vista/assets/estilos/stylesNav.css">
+    <link rel="stylesheet" href="/chamba/web/vista/assets/estilos/registro.css">
+    <link rel="stylesheet" href="/chamba/web/vista/assets/estilos/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="shortcut icon" href="../vista/img/logopng.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/chamba/web/vista/assets//img/logopng.png" type="image/x-icon">
     <title>Registro</title>
 </head>
 <body>
@@ -15,8 +15,8 @@
     <?php include __DIR__ . '/secciones/nav.php'; ?>
 
      <section class="registro-seccion">
-        <form action="../controlador/UsuarioControler.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="accion" value="registro">
+        <form action="/chamba/web/router.php?page=registro" method="post">
+           
             <h2>Registro</h2>
 
             <div class="modal-nombre">
@@ -42,11 +42,11 @@
             <input class="input11" type="email" name="email" id="email" placeholder="Ingrese un email"
                 title="Ingrese un email válido" onkeydown="noEspacios(event)" required>
 
-            <input class="input11" type="password" name="passwordA" id="passwordA" maxlength="15" minlength="6"
+            <input class="input11" type="password" name="password" id="passwordA" maxlength="15" minlength="6"
                 placeholder="Escriba una contraseña" title="Escribe contraseña" onkeydown="noEspacios(event)"
                 onblur="verificarPass()" required>
 
-            <input class="input11" type="password" name="passwordB" id="passwordB" maxlength="15" minlength="6"
+            <input class="input11" type="password" name="password_confirm" id="passwordB" maxlength="15" minlength="6"
                 placeholder="Verifica su contraseña" title="Verifica contraseña" onkeydown="noEspacios(event)"
                 onblur="verificarPass()" required>
 
@@ -58,7 +58,7 @@
             <?php endif; ?>
                 
             <button type="submit" id="enviar">Registrarse</button>
-            <a style="margin-top: 10px;" href="../vista/sesion.php">¿Ya tienes una cuenta?</a>
+            <a style="margin-top: 10px;" href="/chamba/web/router.php?page=sesion">¿Ya tienes una cuenta?</a>
         </form>
     </section>
 

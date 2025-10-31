@@ -27,31 +27,31 @@ $pagina = $_GET['seccion'] ?? 'inicio';
 <!-- Sidebar -->
 <aside class="sidebar">
     <div class="sidebar-header">
-        <h2>🔧 Chamba Admin</h2>
+        <h2>Chamba Admin</h2>
         <p><?= htmlspecialchars($admin_nombre) ?></p>
     </div>
     
     <nav class="sidebar-nav">
         <a href="?seccion=inicio" class="<?= $pagina === 'inicio' ? 'active' : '' ?>">
-            📊 Dashboard
+            Chamba Estadisticas
         </a>
         <a href="?seccion=usuarios" class="<?= $pagina === 'usuarios' ? 'active' : '' ?>">
-            👥 Usuarios
+            Usuarios
         </a>
         <a href="?seccion=publicaciones" class="<?= $pagina === 'publicaciones' ? 'active' : '' ?>">
-            📝 Publicaciones
+            Publicaciones
         </a>
         <a href="?seccion=mensajes" class="<?= $pagina === 'mensajes' ? 'active' : '' ?>">
-            💬 Mensajes
+            Mensajes
         </a>
         <a href="?seccion=resenas" class="<?= $pagina === 'resenas' ? 'active' : '' ?>">
-            ⭐ Reseñas
+            Reseñas
         </a>
         <a href="?seccion=categorias" class="<?= $pagina === 'categorias' ? 'active' : '' ?>">
-            🏷️ Categorías
+            Categorías
         </a>
         <a href="logout.php" class="logout">
-            🚪 Cerrar Sesión
+            Cerrar Sesión
         </a>
     </nav>
 </aside>
@@ -62,17 +62,17 @@ $pagina = $_GET['seccion'] ?? 'inicio';
         <h1>
             <?php
             $titulos = [
-                'inicio' => '📊 Dashboard',
-                'usuarios' => '👥 Gestión de Usuarios',
-                'publicaciones' => '📝 Gestión de Publicaciones',
-                'mensajes' => '💬 Gestión de Mensajes',
-                'resenas' => '⭐ Gestión de Reseñas',
-                'categorias' => '🏷️ Gestión de Categorías'
+                'inicio' => 'Chamba Estadisticas',
+                'usuarios' => 'Gestión de Usuarios',
+                'publicaciones' => 'Gestión de Publicaciones',
+                'mensajes' => 'Gestión de Mensajes',
+                'resenas' => 'Gestión de Reseñas',
+                'categorias' => 'Gestión de Categorías'
             ];
             echo $titulos[$pagina] ?? 'Panel de Administración';
             ?>
         </h1>
-        <a href="../router.php?page=inicio" class="btn-ver-sitio" target="_blank">Ver Sitio →</a>
+        <a href="../router.php?page=inicio" class="btn-ver-sitio" target="_blank">Ver Sitio</a>
     </div>
 
     <div class="content-area">
