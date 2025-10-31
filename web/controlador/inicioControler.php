@@ -30,8 +30,15 @@ if (method_exists($userModel, 'getUserByEmail')) {
     $usuario = $userModel->getUserByEmail($_SESSION['email']);
 }
 
-// Publicaciones (array)
-$publicaciones = $pubModel->getPublicaciones();
+// Obtener término de búsqueda
+$busqueda = isset($_GET['buscar']) ? trim($_GET['buscar']) : '';
+
+// Publicaciones: con búsqueda o todas
+if (!empty($busqueda)) {
+    $publicaciones = $pubModel->buscarPublicaciones($busqueda);
+} else {
+    $publicaciones = $pubModel->getPublicaciones();
+}
 
 // Render
 include __DIR__ . '/../vista/app/inicio.php';

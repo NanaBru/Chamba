@@ -107,3 +107,137 @@ nav ul li a{
 
     }
 }
+
+
+/* Barra de búsqueda */
+.search-container {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 20px;
+}
+
+.search-form {
+    display: flex;
+    gap: 5px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #476a30;
+}
+
+.search-btn {
+    padding: 10px 20px;
+    background: #476a30;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background 0.3s;
+}
+
+.search-btn:hover {
+    background: #365224;
+}
+
+.search-info {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    background: #fffbea;
+    border: 1px solid #f5d547;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-info p {
+    margin: 0;
+    color: #555;
+}
+
+.clear-search {
+    color: #476a30;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.clear-search:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #menu {
+        flex-wrap: wrap;
+    }
+    
+    .search-container {
+        order: 3;
+        width: 100%;
+        max-width: 100%;
+        margin: 10px 0;
+        padding: 0 20px;
+    }
+    
+    .search-info {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+
+
+/* Autocompletado */
+.autocomplete-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.autocomplete-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 99;
+    margin-top: 5px;
+}
+
+.autocomplete-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-active {
+    background: #f5f7fa;
+    color: #476a30;
+}
+
+.autocomplete-item strong {
+    color: #476a30;
+    font-weight: 600;
+}

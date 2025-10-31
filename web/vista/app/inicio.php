@@ -20,18 +20,53 @@
         <img class="logo" src="/chamba/web/vista/assets/img/logopng.png" alt="logo">
         <a href="/chamba/web/router.php?page=inicio"><h1 class="logoNombre">Chamba</h1></a>
     </div>
+    
+    <!-- Barra de búsqueda con autocompletado -->
+    <div class="search-container">
+        <form action="/chamba/web/router.php" method="get" class="search-form" id="searchForm">
+            <input type="hidden" name="page" value="inicio">
+            <div class="autocomplete-wrapper">
+                <input type="text" 
+                       name="buscar" 
+                       id="searchInput"
+                       placeholder="Buscar servicios..." 
+                       value="<?= htmlspecialchars($_GET['buscar'] ?? '') ?>"
+                       class="search-input"
+                       autocomplete="off">
+                <div id="autocomplete-list" class="autocomplete-items"></div>
+            </div>
+            <button type="submit" class="search-btn">🔍</button>
+        </form>
+    </div>
+    
     <div class="LogoDIV2">
         <div class="hamburguesa" onclick="toggleMenu()">
             <div></div><div></div><div></div>
         </div>
         <ul id="navLinks">
             <li><a href="/chamba/web/router.php?page=inicio">Inicio</a></li>
-            <li><a href="/chamba/web/router.php?page=perfil">Perfil</a></li>
-            <li><a href="/chamba/web/router.php?page=crear-publicacion">Crear Publicación</a></li>
-            <li><a href="/chamba/web/vista/app/usuario/logout.php">Cerrar Sesión</a></li>
+            <?php if(isset($_SESSION['usuario_id'])): ?>
+                <li><a href="/chamba/web/router.php?page=perfil">Perfil</a></li>
+                <li><a href="/chamba/web/router.php?page=crear-publicacion">Crear Publicación</a></li>
+                <li><a href="/chamba/web/vista/app/usuario/logout.php">Cerrar Sesión</a></li>
+            <?php else: ?>
+                <li><a href="/chamba/web/router.php?page=sesion">Iniciar Sesión</a></li>
+            <?php endif; ?>
         </ul>
     </div>   
 </nav>
+
+
+<!-- Mostrar mensaje si hay búsqueda -->
+<?php if (!empty($busqueda)): ?>
+    <div class="search-info">
+        <p>Resultados para: <strong>"<?= htmlspecialchars($busqueda) ?>"</strong> 
+           (<?= count($publicaciones) ?> <?= count($publicaciones) === 1 ? 'resultado' : 'resultados' ?>)
+        </p>
+        <a href="/chamba/web/router.php?page=inicio" class="clear-search">Limpiar búsqueda</a>
+    </div>
+<?php endif; ?>
+
 
 <main>
     <section>
@@ -96,4 +131,96 @@
 
 <?php include __DIR__ . '/../secciones/footer.php'; ?>
 </body>
+<script>
+// Autocompletado en tiempo real
+const searchInput = document.getElementById('searchInput');
+const autocompleteList = document.getElementById('autocomplete-list');
+let currentFocus = -1;
+
+searchInput.addEventListener('input', function() {
+    const val = this.value.trim();
+    closeAllLists();
+    
+    if (val.length < 2) return;
+    
+    currentFocus = -1;
+    
+    // Petición AJAX
+    fetch(`/chamba/web/api/buscarSugerencias.php?q=${encodeURIComponent(val)}`)
+        .then(response => response.json())
+        .then(sugerencias => {
+            if (sugerencias.length === 0) return;
+            
+            sugerencias.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('autocomplete-item');
+                
+                // Resaltar texto coincidente
+                const match = item.toLowerCase().indexOf(val.toLowerCase());
+                if (match !== -1) {
+                    div.innerHTML = 
+                        item.substr(0, match) + 
+                        '<strong>' + item.substr(match, val.length) + '</strong>' + 
+                        item.substr(match + val.length);
+                } else {
+                    div.textContent = item;
+                }
+                
+                div.addEventListener('click', function() {
+                    searchInput.value = item;
+                    closeAllLists();
+                    document.getElementById('searchForm').submit();
+                });
+                
+                autocompleteList.appendChild(div);
+            });
+        })
+        .catch(err => console.error('Error:', err));
+});
+
+// Navegación con teclado
+searchInput.addEventListener('keydown', function(e) {
+    let items = autocompleteList.getElementsByClassName('autocomplete-item');
+    
+    if (e.keyCode === 40) { // Flecha abajo
+        currentFocus++;
+        addActive(items);
+    } else if (e.keyCode === 38) { // Flecha arriba
+        currentFocus--;
+        addActive(items);
+    } else if (e.keyCode === 13) { // Enter
+        e.preventDefault();
+        if (currentFocus > -1 && items[currentFocus]) {
+            items[currentFocus].click();
+        }
+    }
+});
+
+function addActive(items) {
+    if (!items) return false;
+    removeActive(items);
+    if (currentFocus >= items.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = items.length - 1;
+    items[currentFocus].classList.add('autocomplete-active');
+}
+
+function removeActive(items) {
+    for (let i = 0; i < items.length; i++) {
+        items[i].classList.remove('autocomplete-active');
+    }
+}
+
+function closeAllLists() {
+    autocompleteList.innerHTML = '';
+    currentFocus = -1;
+}
+
+// Cerrar al hacer clic fuera
+document.addEventListener('click', function(e) {
+    if (e.target !== searchInput) {
+        closeAllLists();
+    }
+});
+</script>
+
 </html>

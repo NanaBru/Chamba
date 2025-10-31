@@ -154,6 +154,60 @@ public function eliminarPublicacion($publicacion_id, $usuario_id) {
     }
 }
 
+// BUSCAR PUBLICACIONES por título o descripción
+public function buscarPublicaciones($termino) {
+    $conn = $this->conexion->getConexion();
+    $busqueda = '%' . $termino . '%';
+    
+    $sql = "SELECT p.id, p.titulo, p.descripcion, p.imagen, p.precio, p.fecha,
+                   u.nombre, u.apellido,
+                   COALESCE(ROUND(AVG(c.estrellas),1), 5.0) AS rating
+            FROM publicaciones p
+            INNER JOIN usuario u ON u.id = p.usuario_id
+            LEFT JOIN calificasion c ON c.publicacion_id = p.id
+            WHERE p.titulo LIKE ? OR p.descripcion LIKE ?
+            GROUP BY p.id
+            ORDER BY p.fecha DESC";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $busqueda, $busqueda);
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    $data = [];
+    if ($res) {
+        while ($row = $res->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
+    return $data;
+}
+
+// OBTENER SUGERENCIAS DE BÚSQUEDA (títulos únicos)
+public function obtenerSugerencias($termino) {
+    $conn = $this->conexion->getConexion();
+    $busqueda = '%' . $termino . '%';
+    
+    $sql = "SELECT DISTINCT titulo 
+            FROM publicaciones 
+            WHERE titulo LIKE ? 
+            ORDER BY titulo ASC 
+            LIMIT 8";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $busqueda);
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    $sugerencias = [];
+    while ($row = $res->fetch_assoc()) {
+        $sugerencias[] = $row['titulo'];
+    }
+    return $sugerencias;
+}
+
+
+
 
 
 
