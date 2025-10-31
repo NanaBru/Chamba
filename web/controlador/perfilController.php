@@ -1,64 +1,69 @@
 <?php
-// web/controlador/perfilController.php
+require_once __DIR__ . '/../modelo/Usuario.php';
+require_once __DIR__ . '/../modelo/Publicaciones.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Redirigir si no hay sesión activa
-if (empty($_SESSION['email'])) {
+if (!isset($_SESSION['usuario_id'])) {
     header("Location: /chamba/web/router.php?page=sesion");
     exit;
 }
 
-require_once __DIR__ . '/../modelo/Usuario.php';
-$userModel = new Usuario();
+$usuario_id = $_SESSION['usuario_id'];
+$usuarioModel = new Usuario();
+$publicacionModel = new Publicaciones();
 
-// Obtener usuario actual con el método robusto
-$email   = $_SESSION['email'];
-$usuario = $userModel->getPerfilPorEmail($email);
+$usuario = $usuarioModel->obtenerDatosUsuario($usuario_id);
 
-// Variables para la vista
-$fotoPath  = '';
-$tieneFoto = false;
-$inicial   = '';
-
-// Subida de nueva foto de perfil
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto_perfil'])) {
-    $carpetaDestino = __DIR__ . "/../datos/usuarios/";
-    if (!is_dir($carpetaDestino)) {
-        mkdir($carpetaDestino, 0777, true);
-    }
-
-    $ext = strtolower(pathinfo($_FILES['foto_perfil']['name'], PATHINFO_EXTENSION));
-    $permitidas = ['jpg','jpeg','png','gif','webp'];
-    if (!in_array($ext, $permitidas)) {
-        header("Location: /chamba/web/router.php?page=perfil&error=" . urlencode('Formato de imagen no permitido'));
-        exit;
-    }
-
-    $nombreArchivo = uniqid('usr_') . "." . $ext;
-    $rutaDestino   = $carpetaDestino . $nombreArchivo;
-
-    if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $rutaDestino)) {
-        $userModel->actualizarFotoPerfil($email, $nombreArchivo);
-        $_SESSION['foto_perfil'] = $nombreArchivo; // opcional
-    }
-
-    header("Location: /chamba/web/router.php?page=perfil");
+if (!$usuario) {
+    echo "<p style='color:red;'>Error: No se encontraron los datos del usuario.</p>";
     exit;
 }
 
-// Preparar datos seguros para la vista
-if ($usuario) {
-    if (!empty($usuario['foto_perfil'])) {
-        $fotoPath  = "/chamba/web/datos/usuarios/" . $usuario['foto_perfil'];
-        $tieneFoto = file_exists(__DIR__ . "/../datos/usuarios/" . $usuario['foto_perfil']);
-    }
-    if (!empty($usuario['nombre'])) {
-        $inicial = strtoupper(substr($usuario['nombre'], 0, 1));
+$tieneFoto = false;
+$fotoPath = '';
+$inicial = strtoupper(substr($usuario['nombre'] ?? 'U', 0, 1));
+
+// Verificar foto existente
+if (!empty($usuario['foto_perfil'])) {
+    $fotoPath = '/chamba/web/datos/usuarios/' . $usuario['foto_perfil'];
+    $rutaFisica = __DIR__ . '/../datos/usuarios/' . $usuario['foto_perfil'];
+    $tieneFoto = file_exists($rutaFisica);
+}
+
+// Subida de nueva foto
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto_perfil'])) {
+    $foto = $_FILES['foto_perfil'];
+
+    if ($foto['error'] === UPLOAD_ERR_OK) {
+        $carpetaDestino = __DIR__ . '/../datos/usuarios/';
+        if (!file_exists($carpetaDestino)) {
+            mkdir($carpetaDestino, 0777, true);
+        }
+
+        $ext = strtolower(pathinfo($foto['name'], PATHINFO_EXTENSION));
+        $permitidas = ['jpg','jpeg','png','gif','webp'];
+        
+        if (!in_array($ext, $permitidas)) {
+            header("Location: /chamba/web/router.php?page=perfil&error=" . urlencode('Formato no permitido'));
+            exit;
+        }
+
+        // Nombre único solo con nombre de archivo
+        $nombreFoto = 'usuario_' . $usuario_id . '_' . uniqid() . '.' . $ext;
+        $rutaDestino = $carpetaDestino . $nombreFoto;
+
+        if (move_uploaded_file($foto['tmp_name'], $rutaDestino)) {
+            // Guardar SOLO el nombre en la base (sin rutas)
+            $usuarioModel->actualizarFotoPerfilPorId($usuario_id, $nombreFoto);
+            header("Location: /chamba/web/router.php?page=perfil");
+            exit;
+        }
     }
 }
 
-// Render de la vista (no tocar la vista)
-require __DIR__ . '/../vista/app/usuario/perfil.php';
+$misPublicaciones = $publicacionModel->getPublicacionesPorUsuario($usuario_id);
+
+require_once __DIR__ . '/../vista/app/usuario/perfil.php';

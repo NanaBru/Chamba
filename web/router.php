@@ -24,7 +24,8 @@ switch ($page) {
 
     case 'crear-publicacion':
     require_once __DIR__ . '/controlador/crearpubliControler.php';
-        break;
+    break;
+
 
 
     case 'perfil':

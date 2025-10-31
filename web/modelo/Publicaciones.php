@@ -16,7 +16,7 @@ public function getPublicaciones(): array {
     $conn = $this->conexion->getConexion();
     $sql = "SELECT p.id, p.titulo, p.descripcion, p.imagen, p.precio, p.fecha,
                    u.nombre, u.apellido,
-                   ROUND(AVG(c.estrellas),1) AS rating
+                   COALESCE(ROUND(AVG(c.estrellas),1), 5.0) AS rating
             FROM publicaciones p
             INNER JOIN usuario u ON u.id = p.usuario_id
             LEFT JOIN calificasion c ON c.publicacion_id = p.id
@@ -36,26 +36,33 @@ public function getPublicaciones(): array {
 
 
 
-    // Publicaciones por usuario (opcional)
-    public function getPublicacionesPorUsuario(int $usuarioId): array {
-        $conn = $this->conexion->getConexion();
-        $sql = "SELECT id, titulo, descripcion, imagen, precio, fecha
-                FROM publicaciones
-                WHERE usuario_id = ?
-                ORDER BY fecha DESC";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $usuarioId);
-        $stmt->execute();
-        $res = $stmt->get_result();
 
-        $data = [];
-        if ($res) {
-            while ($row = $res->fetch_assoc()) {
-                $data[] = $row;
-            }
+    // Publicaciones por usuario (opcional)
+   public function getPublicacionesPorUsuario(int $usuarioId): array {
+    $conn = $this->conexion->getConexion();
+
+    $sql = "SELECT p.id, p.titulo, p.descripcion, p.imagen, p.precio, p.fecha,
+                   COALESCE(ROUND(AVG(c.estrellas),1), 5.0) AS rating
+            FROM publicaciones p
+            LEFT JOIN calificasion c ON c.publicacion_id = p.id
+            WHERE p.usuario_id = ?
+            GROUP BY p.id
+            ORDER BY p.fecha DESC";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $usuarioId);
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    $data = [];
+    if ($res) {
+        while ($row = $res->fetch_assoc()) {
+            $data[] = $row;
         }
-        return $data;
     }
+    return $data;
+}
+
 
     public function crearPublicacion(int $usuarioId, string $titulo, string $descripcion, ?string $imagen, float $precio): bool {
     $conn = $this->conexion->getConexion();
@@ -65,5 +72,7 @@ public function getPublicaciones(): array {
     $stmt->bind_param("isssd", $usuarioId, $titulo, $descripcion, $imagen, $precio);
     return $stmt->execute();
 }
+
+
 
 }

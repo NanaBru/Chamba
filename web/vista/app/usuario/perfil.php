@@ -1,7 +1,6 @@
 <?php
-// Este archivo NO necesita hacer require del controlador, lo llama el perfilController
+// Variables esperadas: $usuario, $tieneFoto, $fotoPath, $inicial, $misPublicaciones
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -31,37 +30,75 @@
     </div>   
 </nav>
 
-<h2>Datos de Perfil</h2>
-
-<main class="profile-container">
-
-    <div class="fotoPerfil">
-        <div class="avatar-wrapper">
-            <?php if ($tieneFoto): ?>
-                <img src="<?= htmlspecialchars($fotoPath) ?>" alt="Foto de perfil">
-            <?php else: ?>
-                <span class="inicial"><?= htmlspecialchars($inicial) ?></span>
-            <?php endif; ?>
-        </div>
-        <form id="formFoto" action="/chamba/web/controlador/perfilController.php" method="post" enctype="multipart/form-data">
-            <input type="file" name="foto_perfil" id="foto" style="display:none;" onchange="document.getElementById('formFoto').submit();">
-            <button type="button" class="upload-btn" onclick="document.getElementById('foto').click();">
-                <?= $tieneFoto ? 'Cambiar foto' : 'Subir foto'; ?>
-            </button>
-        </form>
-    </div>
-
-    <div class="profile-content">
-        <?php if ($usuario): ?>
-            <p><strong>Nombre:</strong> <?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']) ?></p>
-            <p><strong>Edad:</strong> <?= htmlspecialchars($usuario['edad']) ?></p>
-            <p><strong>Teléfono:</strong> <?= htmlspecialchars($usuario['telefono']) ?></p>
-            <p><strong>Email:</strong> <?= htmlspecialchars($usuario['email']) ?></p>
-            <a href="editarPerfil.php" class="upload-btn">Editar Perfil</a>
+<main class="perfil-main">
+  
+  <!-- Sección del perfil del usuario -->
+  <section class="perfil-usuario">
+    <div class="perfil-header">
+      <div class="avatar-wrapper">
+        <?php if ($tieneFoto): ?>
+            <img src="<?= htmlspecialchars($fotoPath) ?>?v=<?= time() ?>" alt="Foto de perfil">
         <?php else: ?>
-            <p style="color:red;">Datos de usuario no disponibles. Intenta cerrar sesión y volver a entrar.</p>
+            <span class="inicial"><?= htmlspecialchars($inicial) ?></span>
         <?php endif; ?>
+      </div>
+      
+      <div class="perfil-info">
+        <?php if ($usuario): ?>
+          <h2><?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']) ?></h2>
+          <p><strong>Edad:</strong> <?= htmlspecialchars($usuario['edad']) ?></p>
+          <p><strong>Teléfono:</strong> <?= htmlspecialchars($usuario['telefono']) ?></p>
+          <p><strong>Email:</strong> <?= htmlspecialchars($usuario['email']) ?></p>
+          
+          <div class="perfil-actions">
+            <form id="formFoto" action="/chamba/web/router.php?page=perfil" method="post" enctype="multipart/form-data" style="display:inline-block;">
+              <input type="file" name="foto_perfil" id="foto" style="display:none;" onchange="document.getElementById('formFoto').submit();">
+              <button type="button" class="upload-btn" onclick="document.getElementById('foto').click();">
+                <?= $tieneFoto ? 'Cambiar foto' : 'Subir foto'; ?>
+              </button>
+            </form>
+            <a href="editarPerfil.php" class="edit-btn">Editar Perfil</a>
+          </div>
+        <?php else: ?>
+          <p style="color:red;">Datos de usuario no disponibles.</p>
+        <?php endif; ?>
+      </div>
     </div>
+  </section>
+
+  <!-- Publicaciones del usuario -->
+  <section class="perfil-publicaciones">
+    <h3>Mis Publicaciones</h3>
+
+    <?php if (!empty($misPublicaciones)): ?>
+      <div class="publicaciones">
+        <?php foreach ($misPublicaciones as $p): ?>
+          <div class="card" onclick="window.location.href='/chamba/web/router.php?page=publicacion&id=<?= urlencode((string)($p['id'] ?? '')) ?>'">
+            <?php if (!empty($p['imagen'])): ?>
+              <img src="/chamba/web/datos/publicasiones/<?= htmlspecialchars($p['imagen']) ?>" alt="imagen de la publicación">
+            <?php endif; ?>
+
+            <h4><?= htmlspecialchars($p['titulo'] ?? 'Sin título') ?></h4>
+
+            <?php if (!empty($p['precio'])): ?>
+              <span class="precio">$<?= htmlspecialchars($p['precio']) ?></span>
+            <?php endif; ?>
+
+            <?php if (!empty($p['descripcion'])): ?>
+              <p><?= nl2br(htmlspecialchars(mb_substr($p['descripcion'], 0, 100))) ?><?= strlen($p['descripcion']) > 100 ? '...' : '' ?></p>
+            <?php endif; ?>
+
+            <small>
+              <?= htmlspecialchars($p['fecha'] ? "Publicada: " . date('d/m/Y', strtotime($p['fecha'])) : "Sin fecha") ?>
+            </small>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    <?php else: ?>
+      <p class="sin-publicaciones">Aún no has creado publicaciones.</p>
+    <?php endif; ?>
+  </section>
+
 </main>
 
 <script src="/chamba/web/vista/assets/js/script.js"></script>

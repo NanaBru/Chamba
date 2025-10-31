@@ -9,6 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/chamba/web/vista/assets/estilos/stylesNav.css">
 <link rel="stylesheet" href="/chamba/web/vista/assets/estilos/inicio.css">
+<link rel="stylesheet" href="/chamba/web/vista/assets/estilos/footer.css">
+<link rel="shortcut icon" href="/chamba/web/vista/assets/img/logopng.png" type="image/x-icon">
 <title>Inicio - Chamba</title>
 </head>
 <body>

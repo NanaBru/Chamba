@@ -25,34 +25,48 @@
         <ul id="navLinks">
             <li><a href="/chamba/web/router.php?page=inicio">Inicio</a></li>
             <li><a href="/chamba/web/router.php?page=perfil">Perfil</a></li>
-            <li><a href="/chamba/web/app/usuario/logout.php">Cerrar Sesión</a></li>
+            <li><a href="/chamba/web/vista/app/usuario/logout.php">Cerrar Sesión</a></li>
         </ul>
     </div>   
 </nav>
 
-<section class="crearpubli">
-    <form method="post" enctype="multipart/form-data">
-        <h2>Crear publicación</h2>
+<main class="crear-publicacion-main">
+    <h1 class="page-title">Crear Nueva Publicación</h1>
+    
+    <form method="post" enctype="multipart/form-data" class="form-publicacion">
+        
+        <div class="form-group">
+            <label for="titulo">Título del Servicio</label>
+            <input type="text" name="titulo" id="titulo" maxlength="150" placeholder="Ej: Clases de guitarra para principiantes" required>
+        </div>
 
-        <label for="titulo">Título:</label>
-        <input type="text" name="titulo" id="titulo" maxlength="150" required>
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea name="descripcion" id="descripcion" rows="6" placeholder="Describe tu servicio en detalle..." required></textarea>
+        </div>
 
-        <label for="descripcion">Descripción:</label>
-        <textarea name="descripcion" id="descripcion" rows="6" required></textarea>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="precio">Precio (ARS)</label>
+                <input type="number" name="precio" id="precio" step="0.01" min="0" placeholder="0.00" required>
+            </div>
 
-        <label for="precio">Precio (en pesos):</label>
-        <input type="number" name="precio" id="precio" step="0.01" min="0" required>
+            <div class="form-group">
+                <label for="imagen">Imagen del Servicio</label>
+                <input type="file" name="imagen" id="imagen" accept="image/*">
+                <small>Se convertirá automáticamente a WebP para optimización</small>
+            </div>
+        </div>
 
-        <label for="imagen">Imagen (opcional):</label>
-        <input type="file" name="imagen" accept="image/*">
-
-        <button type="submit">Publicar</button>
+        <button type="submit" class="btn-publicar">Publicar Servicio</button>
 
         <?php if(!empty($mensaje)): ?>
-            <div class="msg"><?php echo htmlspecialchars($mensaje); ?></div>
+            <div class="msg <?= strpos($mensaje, 'éxito') !== false ? 'msg-success' : 'msg-error' ?>">
+                <?php echo htmlspecialchars($mensaje); ?>
+            </div>
         <?php endif; ?>
     </form>
-</section>
+</main>
 
 <script src="/chamba/web/vista/assets/js/script.js"></script>
 </body>
