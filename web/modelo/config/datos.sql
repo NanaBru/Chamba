@@ -95,3 +95,7 @@ CREATE TABLE publicaciones (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 ); */
+
+
+
+
