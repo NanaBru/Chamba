@@ -57,10 +57,19 @@
                 <?= $tieneFoto ? 'Cambiar foto' : 'Subir foto'; ?>
               </button>
             </form>
-            <a href="editarPerfil.php" class="edit-btn">Editar Perfil</a>
+            <a href="/chamba/web/router.php?page=editar-perfil" class="edit-btn">Editar Perfil</a>
           </div>
         <?php else: ?>
           <p style="color:red;">Datos de usuario no disponibles.</p>
+        <?php endif; ?>
+      </div>
+
+      <!-- Descripción del usuario -->
+      <div class="perfil-descripcion">
+        <?php if (!empty($usuario['descripcion'])): ?>
+          <p><?= nl2br(htmlspecialchars($usuario['descripcion'])) ?></p>
+        <?php else: ?>
+          <p class="sin-descripcion">Este usuario aún no ha agregado una descripción.</p>
         <?php endif; ?>
       </div>
     </div>

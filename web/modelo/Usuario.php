@@ -65,10 +65,11 @@ class Usuario {
     // ==============================
     // 🟢 OBTENER DATOS DE USUARIO POR ID
     // ==============================
-   public function obtenerDatosUsuario($usuario_id) {
+   // OBTENER DATOS DE USUARIO POR ID (incluye descripción)
+public function obtenerDatosUsuario($usuario_id) {
     try {
         $conn = $this->conexion->getConexion();
-        $sql = "SELECT id, nombre, apellido, edad, telefono, email, foto_perfil
+        $sql = "SELECT id, nombre, apellido, edad, telefono, email, foto_perfil, descripcion
                 FROM usuario WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $usuario_id);
@@ -79,6 +80,7 @@ class Usuario {
         return null;
     }
 }
+
 
 
     // ==============================
@@ -98,18 +100,105 @@ class Usuario {
     // ==============================
     // 🟢 ACTUALIZAR DATOS DEL PERFIL
     // ==============================
-    public function actualizarDatosPerfil($usuario_id, $nombre, $apellido, $edad, $telefono) {
-        try {
-            $conn = $this->conexion->getConexion();
-            $stmt = $conn->prepare("UPDATE usuario
-                                    SET nombre = ?, apellido = ?, edad = ?, telefono = ?
-                                    WHERE id = ?");
-            $stmt->bind_param("ssisi", $nombre, $apellido, $edad, $telefono, $usuario_id);
-            return $stmt->execute();
-        } catch (Exception $e) {
-            return false;
-        }
+   // ACTUALIZAR PERFIL COMPLETO (incluye descripción, email y opcionalmente password)
+// ACTUALIZAR PERFIL COMPLETO (incluye descripción, email y opcionalmente password)
+// ACTUALIZAR PERFIL COMPLETO
+// ACTUALIZAR PERFIL COMPLETO
+public function actualizarPerfil($id, $nombre, $apellido, $edad, $telefono, $email, $descripcion, $password_hash = null) {
+    $conn = $this->conexion->getConexion();
+    
+    if ($password_hash) {
+        $stmt = $conn->prepare("UPDATE usuario SET nombre=?, apellido=?, edad=?, telefono=?, email=?, descripcion=?, password=? WHERE id=?");
+        $stmt->bind_param("ssissssi", $nombre, $apellido, $edad, $telefono, $email, $descripcion, $password_hash, $id);
+    } else {
+        $stmt = $conn->prepare("UPDATE usuario SET nombre=?, apellido=?, edad=?, telefono=?, email=?, descripcion=? WHERE id=?");
+        $stmt->bind_param("sisssi", $nombre, $apellido, $edad, $telefono, $email, $descripcion, $id);
     }
+    
+    return $stmt->execute();
+}
+
+public function getUsuarioPorEmail($email) {
+    $conn = $this->conexion->getConexion();
+    $stmt = $conn->prepare("SELECT * FROM usuario WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    return $res->fetch_assoc();
+}
+
+public function emailExiste($email, $id_excluir = null) {
+    $conn = $this->conexion->getConexion();
+    
+    if ($id_excluir) {
+        $stmt = $conn->prepare("SELECT id FROM usuario WHERE email = ? AND id != ?");
+        $stmt->bind_param("si", $email, $id_excluir);
+    } else {
+        $stmt = $conn->prepare("SELECT id FROM usuario WHERE email = ?");
+        $stmt->bind_param("s", $email);
+    }
+    
+    $stmt->execute();
+    $res = $stmt->get_result();
+    return $res->num_rows > 0;
+}
+
+
+// ACTUALIZAR PERFIL COMPLETO - VERSIÓN SIMPLIFICADA
+// ACTUALIZAR PERFIL COMPLETO (devuelve array con success y mensaje)
+// ACTUALIZAR PERFIL COMPLETO (devuelve array con success y mensaje)
+public function actualizarPerfilCompleto($usuario_id, $nombre, $apellido, $edad, $telefono, $email, $descripcion, $password = null) {
+    try {
+        $conn = $this->conexion->getConexion();
+
+        // Verificar email duplicado
+        $sql = "SELECT id FROM usuario WHERE email = ? AND id != ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $email, $usuario_id);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) {
+            return ['success' => false, 'mensaje' => 'Email ya registrado por otro usuario.'];
+        }
+
+        // Verificar teléfono duplicado
+        $sql = "SELECT id FROM usuario WHERE telefono = ? AND id != ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $telefono, $usuario_id);
+        $stmt->execute();
+        if ($stmt->get_result()->num_rows > 0) {
+            return ['success' => false, 'mensaje' => 'Teléfono ya registrado por otro usuario.'];
+        }
+
+        // Actualizar
+        if (!empty($password)) {
+            $passHash = password_hash($password, PASSWORD_BCRYPT);
+            $sql = "UPDATE usuario SET nombre=?, apellido=?, edad=?, telefono=?, email=?, descripcion=?, password=? WHERE id=?";
+            $stmt = $conn->prepare($sql);
+            // 8 parámetros: s s i s s s s i
+            $stmt->bind_param("ssissssi", $nombre, $apellido, $edad, $telefono, $email, $descripcion, $passHash, $usuario_id);
+        } else {
+            $sql = "UPDATE usuario SET nombre=?, apellido=?, edad=?, telefono=?, email=?, descripcion=? WHERE id=?";
+            $stmt = $conn->prepare($sql);
+            // 7 parámetros: s s i s s s i
+            $stmt->bind_param("ssisssi", $nombre, $apellido, $edad, $telefono, $email, $descripcion, $usuario_id);
+        }
+
+        if ($stmt->execute() && $stmt->affected_rows >= 0) {
+            return ['success' => true, 'mensaje' => 'Perfil actualizado correctamente.'];
+        }
+        
+        return ['success' => false, 'mensaje' => 'No se pudo actualizar: ' . $conn->error];
+        
+    } catch (Exception $e) {
+        return ['success' => false, 'mensaje' => 'Error: ' . $e->getMessage()];
+    }
+}
+
+
+
+
+
+
 
     // ==============================
     // 🟢 OBTENER PUBLICACIONES DEL USUARIO

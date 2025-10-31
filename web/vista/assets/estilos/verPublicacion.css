@@ -1,0 +1,278 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f6fa;
+    min-height: 100vh;
+    padding-bottom: 40px;
+}
+
+.publicacion-main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.publicacion-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.publicacion-imagen img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.sin-imagen {
+    width: 100%;
+    height: 400px;
+    background: #e0e0e0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 1.2rem;
+}
+
+.publicacion-detalles h1 {
+    color: #476a30;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.precio-rating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.precio {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #476a30;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.estrellas {
+    color: #ffa500;
+    font-size: 1.3rem;
+}
+
+.total-reviews {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.autor-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+.autor-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #476a30, #6b855a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.autor-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.autor-info h3 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.fecha-publicacion {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.descripcion {
+    margin-bottom: 25px;
+}
+
+.descripcion h2 {
+    color: #476a30;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.descripcion p {
+    line-height: 1.7;
+    color: #555;
+}
+
+.acciones {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-contactar,
+.btn-volver {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.btn-contactar {
+    background: linear-gradient(135deg, #476a30, #5a8438);
+    color: white;
+    border: none;
+    flex: 1;
+}
+
+.btn-contactar:hover {
+    transform: translateY(-2px);
+}
+
+.btn-volver {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-volver:hover {
+    background: #ccc;
+}
+
+/* Calificaciones */
+.calificaciones-section {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.calificaciones-section h2 {
+    color: #476a30;
+    margin-bottom: 20px;
+}
+
+.sin-calificaciones {
+    text-align: center;
+    color: #999;
+    padding: 40px;
+}
+
+.calificaciones-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.calificacion-item {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+.cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.cal-usuario {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cal-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #476a30, #6b855a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.cal-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cal-usuario h4 {
+    color: #333;
+    font-size: 1rem;
+}
+
+.cal-fecha {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.cal-estrellas {
+    font-size: 1.2rem;
+}
+
+.cal-estrellas .activa {
+    color: #ffa500;
+}
+
+.cal-estrellas span:not(.activa) {
+    color: #ddd;
+}
+
+.cal-comentario {
+    color: #555;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .publicacion-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .acciones {
+        flex-direction: column;
+    }
+}

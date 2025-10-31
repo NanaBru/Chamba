@@ -1,12 +1,13 @@
 <?php
 // web/controlador/crearpubliControler.php
-// DEBUG TEMPORAL
-if (empty($_SESSION['email'])) {
-    echo "No hay email en sesión, redirigiendo...";
-    exit;
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-
+if (empty($_SESSION['usuario_id'])) {
+    header("Location: /chamba/web/router.php?page=sesion&error=" . urlencode('Inicia sesión'));
+    exit;
+}
 
 require_once __DIR__ . '/../modelo/Usuario.php';
 require_once __DIR__ . '/../modelo/Publicaciones.php';
@@ -15,13 +16,7 @@ $userModel = new Usuario();
 $pubModel  = new Publicaciones();
 
 $mensaje = "";
-
-$usuario = $userModel->getUserByEmail($_SESSION['email']);
-if (!$usuario) {
-    header("Location: /chamba/web/router.php?page=sesion&error=" . urlencode('Sesión inválida'));
-    exit;
-}
-$usuarioId = (int)$usuario['id'];
+$usuarioId = (int)$_SESSION['usuario_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo      = trim($_POST['titulo'] ?? '');
@@ -45,47 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!in_array($ext, $permitidas)) {
                 $mensaje = "Formato de imagen no permitido.";
             } else {
-                // Generar nombre único con extensión .webp
-                $nombreImagen = uniqid('pub_') . '.webp';
+                $nombreImagen = uniqid('pub_') . '.' . $ext;
                 $destino = $carpeta . $nombreImagen;
-
-                // Convertir imagen a WebP con calidad optimizada
-                $tmpName = $_FILES['imagen']['tmp_name'];
-                $converted = false;
-
-                switch ($ext) {
-                    case 'jpg':
-                    case 'jpeg':
-                        $img = imagecreatefromjpeg($tmpName);
-                        if ($img) {
-                            $converted = imagewebp($img, $destino, 85);
-                            imagedestroy($img);
-                        }
-                        break;
-                    case 'png':
-                        $img = imagecreatefrompng($tmpName);
-                        if ($img) {
-                            imagepalettetotruecolor($img);
-                            imagealphablending($img, true);
-                            imagesavealpha($img, true);
-                            $converted = imagewebp($img, $destino, 85);
-                            imagedestroy($img);
-                        }
-                        break;
-                    case 'gif':
-                        $img = imagecreatefromgif($tmpName);
-                        if ($img) {
-                            $converted = imagewebp($img, $destino, 85);
-                            imagedestroy($img);
-                        }
-                        break;
-                    case 'webp':
-                        $converted = move_uploaded_file($tmpName, $destino);
-                        break;
-                }
-
-                if (!$converted) {
-                    $mensaje = "No se pudo procesar la imagen.";
+                
+                if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $destino)) {
+                    $mensaje = "No se pudo guardar la imagen.";
                     $nombreImagen = null;
                 }
             }

@@ -13,6 +13,7 @@ CREATE TABLE usuario (
     telefono VARCHAR(20) UNIQUE,
     email VARCHAR(100) UNIQUE,
     password VARCHAR(255),
+    descripcion TEXT NULL,
     foto_perfil VARCHAR(255),
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ultima_modificasion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

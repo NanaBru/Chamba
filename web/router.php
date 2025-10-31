@@ -26,15 +26,18 @@ switch ($page) {
     require_once __DIR__ . '/controlador/crearpubliControler.php';
     break;
 
-
+    case 'publicacion':
+    require_once __DIR__ . '/controlador/publicacionController.php';
+    break;
 
     case 'perfil':
         require_once __DIR__ . '/controlador/perfilController.php';
         break;
 
     case 'editar-perfil':
-        require_once __DIR__ . '/vista/app/usuario/editarPerfil.php';
-        break;
+    require_once __DIR__ . '/controlador/editarPerfilControler.php';
+    break;
+
 
     case 'mensajeria':
         require_once __DIR__ . '/controlador/mensajeriaControler.php';
@@ -45,4 +48,6 @@ switch ($page) {
         http_response_code(404);
         echo "<h1>Error 404: Página no encontrada</h1>";
         break;
+    
+        
 }

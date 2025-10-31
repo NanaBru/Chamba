@@ -47,7 +47,7 @@
 
         <div class="form-row">
             <div class="form-group">
-                <label for="precio">Precio (ARS)</label>
+                <label for="precio">Precio en pesos</label>
                 <input type="number" name="precio" id="precio" step="0.01" min="0" placeholder="0.00" required>
             </div>
 
