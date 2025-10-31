@@ -218,3 +218,61 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+/* con actualizaciones de la base de datos anterior */
+/* con actualizaciones de la base de datos anterior */
+/* con actualizaciones de la base de datos anterior */
+/* con actualizaciones de la base de datos anterior */
+/* con actualizaciones de la base de datos anterior */
+/* con actualizaciones de la base de datos anterior */
+/* con actualizaciones de la base de datos anterior */
+
+
+-- Agregar columna de rol a usuarios
+ALTER TABLE usuario 
+ADD COLUMN rol ENUM('usuario', 'administrador') DEFAULT 'usuario' AFTER password;
+
+-- Tabla de reportes
+CREATE TABLE reportes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo ENUM('mensaje', 'resena', 'publicacion') NOT NULL,
+    referencia_id INT NOT NULL,
+    reportado_por INT NOT NULL,
+    motivo TEXT NOT NULL,
+    estado ENUM('pendiente', 'revisado', 'resuelto') DEFAULT 'pendiente',
+    fecha_reporte TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (reportado_por) REFERENCES usuario(id) ON DELETE CASCADE,
+    INDEX idx_tipo (tipo),
+    INDEX idx_estado (estado)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Tabla de categorías
+CREATE TABLE categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL UNIQUE,
+    descripcion TEXT NULL,
+    icono VARCHAR(50) DEFAULT '📋',
+    activo TINYINT(1) DEFAULT 1,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Agregar categoría a publicaciones
+ALTER TABLE publicaciones 
+ADD COLUMN categoria_id INT NULL AFTER usuario_id,
+ADD FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE SET NULL;
+
+-- Crear usuario administrador (contraseña: admin123)
+INSERT INTO usuario (nombre, apellido, edad, telefono, email, password, rol, descripcion) VALUES
+('Admin', 'Sistema', 30, '099000000', 'admin@chamba.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'administrador', 'Administrador del sistema Chamba');
+
+-- Categorías iniciales
+INSERT INTO categorias (nombre, descripcion, icono) VALUES
+('Electricidad', 'Servicios de electricidad e instalaciones eléctricas', '⚡'),
+('Plomería', 'Servicios de plomería y gasfitería', '🔧'),
+('Carpintería', 'Servicios de carpintería y muebles', '🪚'),
+('Pintura', 'Servicios de pintura y decoración', '🎨'),
+('Albañilería', 'Servicios de construcción y albañilería', '🧱'),
+('Limpieza', 'Servicios de limpieza y mantenimiento', '🧹'),
+('Jardinería', 'Servicios de jardinería y paisajismo', '🌳'),
+('Tecnología', 'Servicios de informática y tecnología', '💻');

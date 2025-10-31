@@ -64,14 +64,19 @@ public function getPublicaciones(): array {
 }
 
 
-    public function crearPublicacion(int $usuarioId, string $titulo, string $descripcion, ?string $imagen, float $precio): bool {
+    // CREAR PUBLICACIÓN CON CATEGORÍA
+public function crearPublicacion($usuario_id, $titulo, $descripcion, $precio, $imagen = null, $categoria_id = null) {
     $conn = $this->conexion->getConexion();
-    $sql = "INSERT INTO publicaciones (usuario_id, titulo, descripcion, imagen, precio)
-            VALUES (?, ?, ?, ?, ?)";
+    
+    $sql = "INSERT INTO publicaciones (usuario_id, categoria_id, titulo, descripcion, precio, imagen) 
+            VALUES (?, ?, ?, ?, ?, ?)";
+    
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssd", $usuarioId, $titulo, $descripcion, $imagen, $precio);
+    $stmt->bind_param("iissds", $usuario_id, $categoria_id, $titulo, $descripcion, $precio, $imagen);
+    
     return $stmt->execute();
 }
+
 
 
 
