@@ -121,11 +121,15 @@ body {
 }
 
 /* Área de chat */
+/* Área de chat */
 .chat-area {
     display: flex;
     flex-direction: column;
     background: #e5ddd5;
+    height: 100%;  /* Agrega esto */
+    overflow: hidden;  /* Agrega esto */
 }
+
 
 .chat-header {
     background: #f0f2f5;
@@ -180,12 +184,16 @@ body {
 }
 
 /* Mensajes */
+/* Mensajes */
 .mensajes-contenedor {
-    flex: 1;
-    overflow-y: auto;
+    flex: 1;  /* Toma todo el espacio disponible */
+    overflow-y: auto;  /* Scroll independiente */
+    overflow-x: hidden;  /* Evita scroll horizontal */
     padding: 20px;
     background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%23e5ddd5"/></svg>');
+    min-height: 0;  /* CLAVE: permite que flex calcule correctamente */
 }
+
 
 .mensaje {
     display: flex;
@@ -243,13 +251,16 @@ body {
 }
 
 /* Formulario de envío */
+/* Formulario de envío */
 .chat-input-form {
     background: #f0f2f5;
     padding: 15px;
     display: flex;
     gap: 10px;
     border-top: 1px solid #d0d0d0;
+    flex-shrink: 0;  /* Agrega esto - evita que se comprima */
 }
+
 
 .chat-input-form textarea {
     flex: 1;
@@ -259,8 +270,11 @@ body {
     resize: none;
     font-family: Arial, sans-serif;
     font-size: 0.95rem;
-    max-height: 150px;
+    max-height: 100px;  /* Cambia de 150px a 100px */
+    overflow-y: auto;  /* Scroll interno cuando supera max-height */
+    min-height: 40px;  /* Agrega esto - altura mínima */
 }
+
 
 .chat-input-form button {
     padding: 0 25px;
@@ -338,99 +352,7 @@ body {
     background: #365224;
 }
 
-.modal-solicitud {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-contenido {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    max-width: 500px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-}
-
-.modal-contenido h3 {
-    color: #476a30;
-    margin-bottom: 20px;
-}
-
-.lista-publicaciones {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.pub-option {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: border-color 0.2s;
-}
-
-.pub-option:hover {
-    border-color: #476a30;
-}
-
-.pub-option input[type="radio"] {
-    cursor: pointer;
-}
-
-.pub-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.pub-info img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-.modal-botones {
-    display: flex;
-    gap: 10px;
-}
-
-.btn-enviar,
-.btn-cancelar {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.btn-enviar {
-    background: #476a30;
-    color: white;
-}
-
-.btn-cancelar {
-    background: #ccc;
-    color: #333;
-}
-
-/* Modal de solicitud de reseña */
+/* Modal de solicitud de reseña - CORREGIDO */
 .modal-solicitud {
     display: none;
     position: fixed;
@@ -442,12 +364,12 @@ body {
     z-index: 9999;
     align-items: center;
     justify-content: center;
-    animation: fadeIn 0.3s ease;
+    overflow-y: auto; /* CLAVE: permite scroll si el contenido es muy alto */
+    padding: 20px; /* AGREGA ESTO: da espacio en bordes */
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.modal-solicitud.show {
+    display: flex;
 }
 
 .modal-contenido {
@@ -456,10 +378,13 @@ body {
     border-radius: 16px;
     max-width: 550px;
     width: 90%;
-    max-height: 85vh;
+    max-height: 85vh; /* Limita altura máxima */
     overflow: hidden;
     box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     animation: slideUp 0.3s ease;
+    display: flex;
+    flex-direction: column; /* CLAVE: estructura en columna */
+    margin: auto; /* AGREGA ESTO: centra verticalmente */
 }
 
 @keyframes slideUp {
@@ -480,20 +405,28 @@ body {
     margin: 0;
     font-size: 1.3rem;
     border-radius: 16px 16px 0 0;
+    flex-shrink: 0; /* No se comprime */
 }
 
 .modal-contenido form {
     padding: 25px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Evita desborde */
+    flex: 1; /* Toma espacio disponible */
 }
 
+/* Lista de publicaciones - CORREGIDO */
 .lista-publicaciones {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-bottom: 25px;
-    max-height: 400px;
+    margin-bottom: 20px; /* Reduce margen */
+    max-height: 350px; /* Ajusta altura máxima */
     overflow-y: auto;
+    overflow-x: hidden;
     padding-right: 5px;
+    flex-shrink: 1; /* Permite compresión si es necesario */
 }
 
 /* Scrollbar personalizado */
@@ -521,6 +454,7 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     background: #fafafa;
+    flex-shrink: 0; /* Mantiene tamaño */
 }
 
 .pub-option:hover {
@@ -534,11 +468,7 @@ body {
     height: 20px;
     cursor: pointer;
     accent-color: #476a30;
-}
-
-.pub-option input[type="radio"]:checked + .pub-info-modal {
-    color: #476a30;
-    font-weight: 600;
+    flex-shrink: 0;
 }
 
 .pub-info-modal {
@@ -546,6 +476,7 @@ body {
     align-items: center;
     gap: 15px;
     flex: 1;
+    min-width: 0; /* Permite que se comprima */
 }
 
 .pub-info-modal img {
@@ -554,19 +485,24 @@ body {
     object-fit: cover;
     border-radius: 10px;
     border: 2px solid #e0e0e0;
+    flex-shrink: 0;
 }
 
 .pub-info-modal span {
     font-size: 1rem;
     color: #333;
     line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* Botones del modal - CORREGIDO */
 .modal-botones {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-top: 20px;
+    margin-top: 15px; /* Reduce margen superior */
+    flex-shrink: 0; /* Los botones siempre visibles */
 }
 
 .btn-enviar-modal,
@@ -601,7 +537,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* Sin publicaciones */
+/* Mensaje cuando no hay publicaciones */
 .lista-publicaciones:empty::before {
     content: 'No tienes publicaciones para solicitar reseñas';
     display: block;
@@ -611,8 +547,12 @@ body {
     font-style: italic;
 }
 
-/* Responsive móvil */
+/* Responsive móvil - CORREGIDO */
 @media (max-width: 768px) {
+    .modal-solicitud {
+        padding: 10px;
+    }
+    
     .modal-contenido {
         width: 95%;
         max-height: 90vh;
@@ -625,6 +565,10 @@ body {
     
     .modal-contenido form {
         padding: 20px;
+    }
+    
+    .lista-publicaciones {
+        max-height: 300px; /* Reduce altura en móvil */
     }
     
     .pub-option {
@@ -643,4 +587,81 @@ body {
     .modal-botones {
         grid-template-columns: 1fr;
     }
+}
+
+/* Enlace clickeable del contacto en header */
+.contacto-info {
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s;
+}
+
+.contacto-info:hover {
+    opacity: 0.85;
+}
+
+.contacto-info:hover h2 {
+    text-decoration: underline;
+}
+
+/* Botón enviar factura */
+.btn-enviar-factura,
+.btn-facturas {
+    padding: 8px 15px;
+    background: #2c5f2d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.btn-enviar-factura:hover,
+.btn-facturas:hover {
+    background: #1e4620;
+}
+
+/* Form groups en modal */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #476a30;
+}
+
+/* Preview de fotos */
+.preview-fotos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.preview-img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #ddd;
 }

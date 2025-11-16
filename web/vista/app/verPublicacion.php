@@ -60,18 +60,21 @@
             </div>
 
             <div class="autor-info">
-                <div class="autor-avatar">
-                    <?php if (!empty($autor['foto_perfil'])): ?>
-                        <img src="/chamba/web/datos/usuarios/<?= htmlspecialchars($autor['foto_perfil']) ?>" alt="<?= htmlspecialchars($autor['nombre']) ?>">
-                    <?php else: ?>
-                        <span class="inicial"><?= strtoupper(substr($autor['nombre'], 0, 1)) ?></span>
-                    <?php endif; ?>
-                </div>
-                <div>
-                    <h3><?= htmlspecialchars($autor['nombre'] . ' ' . $autor['apellido']) ?></h3>
-                    <p class="fecha-publicacion">Publicado el <?= date('d/m/Y', strtotime($publicacion['fecha'])) ?></p>
-                </div>
-            </div>
+    <a href="/chamba/web/router.php?page=perfil&id=<?= $publicacion['usuario_id'] ?>" class="autor-link">
+        <div class="autor-avatar">
+            <?php if (!empty($autor['foto_perfil'])): ?>
+                <img src="/chamba/web/datos/usuarios/<?= htmlspecialchars($autor['foto_perfil']) ?>" alt="<?= htmlspecialchars($autor['nombre']) ?>">
+            <?php else: ?>
+                <span class="inicial"><?= strtoupper(substr($autor['nombre'], 0, 1)) ?></span>
+            <?php endif; ?>
+        </div>
+        <div>
+            <h3><?= htmlspecialchars($autor['nombre'] . ' ' . $autor['apellido']) ?></h3>
+            <p class="fecha-publicacion">Publicado el <?= date('d/m/Y', strtotime($publicacion['fecha'])) ?></p>
+        </div>
+    </a>
+</div>
+
 
             <div class="descripcion">
                 <h2>Descripción</h2>

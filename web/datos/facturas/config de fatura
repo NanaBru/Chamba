@@ -1,0 +1,4 @@
+mkdir -p /var/www/html/chamba/web/datos/facturas
+chown -R apache:apache /var/www/html/chamba/web/datos/facturas
+chmod -R 775 /var/www/html/chamba/web/datos/facturas
+--

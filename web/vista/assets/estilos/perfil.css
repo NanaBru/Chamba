@@ -237,3 +237,24 @@ body {
         height: 180px;
     }
 }
+
+/* Botón contactar para perfiles públicos */
+.btn-contactar {
+    padding: 10px 20px;
+    background: #476a30;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 600;
+}
+
+.btn-contactar:hover {
+    background: #365224;
+    
+}
+
+

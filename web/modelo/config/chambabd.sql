@@ -1,272 +1,119 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 31-10-2025 a las 13:06:58
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+
+CREATE DATABASE IF NOT EXISTS chambabd
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+
+USE chambabd;
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+CREATE TABLE usuario (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) DEFAULT NULL,
+  apellido VARCHAR(100) DEFAULT NULL,
+  edad INT DEFAULT NULL,
+  telefono VARCHAR(20) UNIQUE,
+  email VARCHAR(100) UNIQUE,
 
---
--- Base de datos: `chambabd`
---
-CREATE DATABASE IF NOT EXISTS `chambabd` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `chambabd`;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `calificasion`
---
-
-CREATE TABLE `calificasion` (
-  `id` int(11) NOT NULL,
-  `publicacion_id` int(11) NOT NULL,
-  `usuario_id` int(11) NOT NULL,
-  `estrellas` tinyint(4) NOT NULL CHECK (`estrellas` between 1 and 5),
-  `comentario` text DEFAULT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+  
+  password VARCHAR(255) DEFAULT NULL,
+  rol ENUM('usuario', 'administrador') DEFAULT 'usuario',
+  foto_perfil VARCHAR(255) NOT NULL,
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  descripcion TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `mensajes`
---
-
-CREATE TABLE `mensajes` (
-  `id` int(11) NOT NULL,
-  `emisor_id` int(11) NOT NULL,
-  `receptor_id` int(11) NOT NULL,
-  `mensaje` text NOT NULL,
-  `leido` tinyint(1) DEFAULT 0,
-  `fecha_envio` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `publicaciones`
---
-
-CREATE TABLE `publicaciones` (
-  `id` int(11) NOT NULL,
-  `usuario_id` int(11) NOT NULL,
-  `titulo` varchar(150) NOT NULL,
-  `descripcion` text NOT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
-  `fecha` datetime DEFAULT current_timestamp(),
-  `precio` decimal(10,2) NOT NULL DEFAULT 0.00
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `solicitudes_resena`
---
-
-CREATE TABLE `solicitudes_resena` (
-  `id` int(11) NOT NULL,
-  `publicacion_id` int(11) NOT NULL,
-  `proveedor_id` int(11) NOT NULL,
-  `cliente_id` int(11) NOT NULL,
-  `estado` enum('pendiente','completada','rechazada') DEFAULT 'pendiente',
-  `fecha_solicitud` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario`
---
-
-CREATE TABLE `usuario` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(100) DEFAULT NULL,
-  `apellido` varchar(100) DEFAULT NULL,
-  `edad` int(11) DEFAULT NULL,
-  `telefono` varchar(20) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `foto_perfil` varchar(255) NOT NULL,
-  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp(),
-  `fecha_modificacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `descripcion` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `calificasion`
---
-ALTER TABLE `calificasion`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `publicacion_id` (`publicacion_id`),
-  ADD KEY `usuario_id` (`usuario_id`);
-
---
--- Indices de la tabla `mensajes`
---
-ALTER TABLE `mensajes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `emisor_id` (`emisor_id`),
-  ADD KEY `receptor_id` (`receptor_id`);
-
---
--- Indices de la tabla `publicaciones`
---
-ALTER TABLE `publicaciones`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `usuario_id` (`usuario_id`);
-
---
--- Indices de la tabla `solicitudes_resena`
---
-ALTER TABLE `solicitudes_resena`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `solicitud_unica` (`publicacion_id`,`cliente_id`),
-  ADD KEY `proveedor_id` (`proveedor_id`),
-  ADD KEY `cliente_id` (`cliente_id`);
-
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `telefono` (`telefono`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `calificasion`
---
-ALTER TABLE `calificasion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `mensajes`
---
-ALTER TABLE `mensajes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `publicaciones`
---
-ALTER TABLE `publicaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `solicitudes_resena`
---
-ALTER TABLE `solicitudes_resena`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `calificasion`
---
-ALTER TABLE `calificasion`
-  ADD CONSTRAINT `calificasion_ibfk_1` FOREIGN KEY (`publicacion_id`) REFERENCES `publicaciones` (`id`),
-  ADD CONSTRAINT `calificasion_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
-
---
--- Filtros para la tabla `mensajes`
---
-ALTER TABLE `mensajes`
-  ADD CONSTRAINT `mensajes_ibfk_1` FOREIGN KEY (`emisor_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `mensajes_ibfk_2` FOREIGN KEY (`receptor_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
-
---
--- Filtros para la tabla `publicaciones`
---
-ALTER TABLE `publicaciones`
-  ADD CONSTRAINT `publicaciones_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `solicitudes_resena`
---
-ALTER TABLE `solicitudes_resena`
-  ADD CONSTRAINT `solicitudes_resena_ibfk_1` FOREIGN KEY (`publicacion_id`) REFERENCES `publicaciones` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `solicitudes_resena_ibfk_2` FOREIGN KEY (`proveedor_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `solicitudes_resena_ibfk_3` FOREIGN KEY (`cliente_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
-/* con actualizaciones de la base de datos anterior */
-/* con actualizaciones de la base de datos anterior */
-/* con actualizaciones de la base de datos anterior */
-/* con actualizaciones de la base de datos anterior */
-/* con actualizaciones de la base de datos anterior */
-/* con actualizaciones de la base de datos anterior */
-/* con actualizaciones de la base de datos anterior */
-
-
--- Agregar columna de rol a usuarios
-ALTER TABLE usuario 
-ADD COLUMN rol ENUM('usuario', 'administrador') DEFAULT 'usuario' AFTER password;
-
--- Tabla de reportes
-CREATE TABLE reportes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    tipo ENUM('mensaje', 'resena', 'publicacion') NOT NULL,
-    referencia_id INT NOT NULL,
-    reportado_por INT NOT NULL,
-    motivo TEXT NOT NULL,
-    estado ENUM('pendiente', 'revisado', 'resuelto') DEFAULT 'pendiente',
-    fecha_reporte TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (reportado_por) REFERENCES usuario(id) ON DELETE CASCADE,
-    INDEX idx_tipo (tipo),
-    INDEX idx_estado (estado)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Tabla de categorías
 CREATE TABLE categorias (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE,
-    descripcion TEXT NULL,
-    icono VARCHAR(50) DEFAULT '📋',
-    activo TINYINT(1) DEFAULT 1,
-    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL UNIQUE,
+  descripcion TEXT DEFAULT NULL,
+  icono VARCHAR(50) DEFAULT '📋',
+  activo TINYINT(1) DEFAULT 1,
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Agregar categoría a publicaciones
-ALTER TABLE publicaciones 
-ADD COLUMN categoria_id INT NULL AFTER usuario_id,
-ADD FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE SET NULL;
 
--- Crear usuario administrador (contraseña: admin123)
-INSERT INTO usuario (nombre, apellido, edad, telefono, email, password, rol, descripcion) VALUES
-('Admin', 'Sistema', 30, '099000000', 'admin@chamba.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'administrador', 'Administrador del sistema Chamba');
+CREATE TABLE publicaciones (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  categoria_id INT NULL,
+  titulo VARCHAR(150) NOT NULL,
+  descripcion TEXT NOT NULL,
+  imagen VARCHAR(255) DEFAULT NULL,
+  fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+  precio DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Categorías iniciales
+
+CREATE TABLE calificasion (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  publicacion_id INT NOT NULL,
+  usuario_id INT NOT NULL,
+  estrellas TINYINT NOT NULL CHECK (estrellas BETWEEN 1 AND 5),
+  comentario TEXT DEFAULT NULL,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id) ON DELETE CASCADE,
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE mensajes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  emisor_id INT NOT NULL,
+  receptor_id INT NOT NULL,
+  mensaje TEXT NOT NULL,
+  leido TINYINT(1) DEFAULT 0,
+  fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (emisor_id) REFERENCES usuario(id) ON DELETE CASCADE,
+  FOREIGN KEY (receptor_id) REFERENCES usuario(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE solicitudes_resena (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  publicacion_id INT NOT NULL,
+  proveedor_id INT NOT NULL,
+  cliente_id INT NOT NULL,
+  estado ENUM('pendiente','completada','rechazada') DEFAULT 'pendiente',
+  fecha_solicitud TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY solicitud_unica (publicacion_id, cliente_id),
+  FOREIGN KEY (publicacion_id) REFERENCES publicaciones(id) ON DELETE CASCADE,
+  FOREIGN KEY (proveedor_id) REFERENCES usuario(id) ON DELETE CASCADE,
+  FOREIGN KEY (cliente_id) REFERENCES usuario(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE reportes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tipo ENUM('mensaje','resena','publicacion') NOT NULL,
+  referencia_id INT NOT NULL,
+  reportado_por INT NOT NULL,
+  motivo TEXT NOT NULL,
+  estado ENUM('pendiente','revisado','resuelto') DEFAULT 'pendiente',
+  fecha_reporte TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (reportado_por) REFERENCES usuario(id) ON DELETE CASCADE,
+  INDEX idx_tipo (tipo),
+  INDEX idx_estado (estado)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+-- Usuario Administrador
+INSERT INTO usuario (nombre, apellido, edad, telefono, email, password, rol, descripcion)
+VALUES ('Admin', 'Sistema', 30, '099000000', 'admin@chamba.com',
+'$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+'administrador', 'Administrador del sistema Chamba');
+
+-- Categorías Base
 INSERT INTO categorias (nombre, descripcion, icono) VALUES
 ('Electricidad', 'Servicios de electricidad e instalaciones eléctricas', '⚡'),
 ('Plomería', 'Servicios de plomería y gasfitería', '🔧'),
@@ -276,3 +123,5 @@ INSERT INTO categorias (nombre, descripcion, icono) VALUES
 ('Limpieza', 'Servicios de limpieza y mantenimiento', '🧹'),
 ('Jardinería', 'Servicios de jardinería y paisajismo', '🌳'),
 ('Tecnología', 'Servicios de informática y tecnología', '💻');
+
+COMMIT;

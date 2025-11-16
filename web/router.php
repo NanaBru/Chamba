@@ -40,8 +40,9 @@ switch ($page) {
     case 'chat':
     require_once __DIR__ . '/controlador/chatController.php';
     break;
-
-
+    case 'mis-facturas':
+    require_once __DIR__ . '/controlador/misFacturasController.php';
+    break;
 
     case 'mensajeria':
         require_once __DIR__ . '/controlador/mensajeriaControler.php';

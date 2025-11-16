@@ -6,35 +6,31 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_SESSION['usuario_id'])) {
+$usuarioModel = new Usuario();
+$publicacionModel = new Publicaciones();
+
+// Detectar si es perfil propio o ajeno
+$usuario_id_perfil = isset($_GET['id']) ? (int)$_GET['id'] : ($_SESSION['usuario_id'] ?? 0);
+
+// Si no hay ID en sesión ni en GET, redirigir a login
+if ($usuario_id_perfil <= 0) {
     header("Location: /chamba/web/router.php?page=sesion");
     exit;
 }
 
-$usuario_id = $_SESSION['usuario_id'];
-$usuarioModel = new Usuario();
-$publicacionModel = new Publicaciones();
-
-$usuario = $usuarioModel->obtenerDatosUsuario($usuario_id);
+// Obtener datos del usuario a mostrar
+$usuario = $usuarioModel->obtenerDatosUsuario($usuario_id_perfil);
 
 if (!$usuario) {
-    echo "<p style='color:red;'>Error: No se encontraron los datos del usuario.</p>";
+    header("Location: /chamba/web/router.php?page=inicio");
     exit;
 }
 
-$tieneFoto = false;
-$fotoPath = '';
-$inicial = strtoupper(substr($usuario['nombre'] ?? 'U', 0, 1));
+// Determinar si es el propio perfil
+$esMiPerfil = isset($_SESSION['usuario_id']) && $_SESSION['usuario_id'] == $usuario_id_perfil;
 
-// Verificar foto existente
-if (!empty($usuario['foto_perfil'])) {
-    $fotoPath = '/chamba/web/datos/usuarios/' . $usuario['foto_perfil'];
-    $rutaFisica = __DIR__ . '/../datos/usuarios/' . $usuario['foto_perfil'];
-    $tieneFoto = file_exists($rutaFisica);
-}
-
-// Subida de nueva foto
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto_perfil'])) {
+// Subida de foto (solo si es mi perfil)
+if ($esMiPerfil && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto_perfil'])) {
     $foto = $_FILES['foto_perfil'];
 
     if ($foto['error'] === UPLOAD_ERR_OK) {
@@ -51,19 +47,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['foto_perfil'])) {
             exit;
         }
 
-        // Nombre único solo con nombre de archivo
-        $nombreFoto = 'usuario_' . $usuario_id . '_' . uniqid() . '.' . $ext;
+        $nombreFoto = 'usuario_' . $usuario_id_perfil . '_' . uniqid() . '.' . $ext;
         $rutaDestino = $carpetaDestino . $nombreFoto;
 
         if (move_uploaded_file($foto['tmp_name'], $rutaDestino)) {
-            // Guardar SOLO el nombre en la base (sin rutas)
-            $usuarioModel->actualizarFotoPerfilPorId($usuario_id, $nombreFoto);
+            $usuarioModel->actualizarFotoPerfilPorId($usuario_id_perfil, $nombreFoto);
             header("Location: /chamba/web/router.php?page=perfil");
             exit;
         }
     }
 }
 
-$misPublicaciones = $publicacionModel->getPublicacionesPorUsuario($usuario_id);
+// Preparar datos de foto
+$tieneFoto = false;
+$fotoPath = '';
+$inicial = strtoupper(substr($usuario['nombre'] ?? 'U', 0, 1));
+
+if (!empty($usuario['foto_perfil'])) {
+    $fotoPath = '/chamba/web/datos/usuarios/' . $usuario['foto_perfil'];
+    $rutaFisica = __DIR__ . '/../datos/usuarios/' . $usuario['foto_perfil'];
+    $tieneFoto = file_exists($rutaFisica);
+}
+
+// Obtener publicaciones
+$misPublicaciones = $publicacionModel->getPublicacionesPorUsuario($usuario_id_perfil);
 
 require_once __DIR__ . '/../vista/app/usuario/perfil.php';

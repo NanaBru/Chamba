@@ -276,3 +276,21 @@ body {
         flex-direction: column;
     }
 }
+
+/* Enlaces clickeables del autor */
+.autor-info a.autor-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s;
+}
+
+.autor-info a.autor-link:hover {
+    opacity: 0.85;
+}
+
+.autor-info a.autor-link:hover h3 {
+    text-decoration: underline;
+}

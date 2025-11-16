@@ -1,5 +1,5 @@
 <?php
-// Variables esperadas: $usuario, $tieneFoto, $fotoPath, $inicial, $misPublicaciones
+// Variables esperadas: $usuario, $tieneFoto, $fotoPath, $inicial, $misPublicaciones, $esMiPerfil
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/chamba/web/vista/assets/estilos/stylesNav.css">
 <link rel="stylesheet" href="/chamba/web/vista/assets/estilos/perfil.css">
 <link rel="shortcut icon" href="/chamba/web/vista/assets/img/logopng.png" type="image/x-icon">
-<title>Perfil</title>
+<title><?= $esMiPerfil ? 'Mi Perfil' : 'Perfil de ' . htmlspecialchars($usuario['nombre']) ?> - Chamba</title>
 </head>
 <body>
 
@@ -24,9 +24,14 @@
         </div>
         <ul id="navLinks">
             <li><a href="/chamba/web/router.php?page=inicio">Inicio</a></li>
-            <li><a href="/chamba/web/router.php?page=chat">Chat</a></li>
-            <li><a href="/chamba/web/router.php?page=crear-publicacion">Crear Publicación</a></li>
-            <li><a href="/chamba/web/vista/app/usuario/logout.php">Cerrar Sesión</a></li>
+            <?php if(isset($_SESSION['usuario_id'])): ?>
+                <li><a href="/chamba/web/router.php?page=chat">Chat</a></li>
+                <li><a href="/chamba/web/router.php?page=perfil">Mi Perfil</a></li>
+                <li><a href="/chamba/web/router.php?page=crear-publicacion">Crear Publicación</a></li>
+                <li><a href="/chamba/web/vista/app/usuario/logout.php">Cerrar Sesión</a></li>
+            <?php else: ?>
+                <li><a href="/chamba/web/router.php?page=sesion">Iniciar Sesión</a></li>
+            <?php endif; ?>
         </ul>
     </div>   
 </nav>
@@ -48,17 +53,28 @@
         <?php if ($usuario): ?>
           <h2><?= htmlspecialchars($usuario['nombre'] . " " . $usuario['apellido']) ?></h2>
           <p><strong>Edad:</strong> <?= htmlspecialchars($usuario['edad']) ?></p>
-          <p><strong>Teléfono:</strong> <?= htmlspecialchars($usuario['telefono']) ?></p>
-          <p><strong>Email:</strong> <?= htmlspecialchars($usuario['email']) ?></p>
+          
+          <?php if ($esMiPerfil): ?>
+            <p><strong>Teléfono:</strong> <?= htmlspecialchars($usuario['telefono']) ?></p>
+            <p><strong>Email:</strong> <?= htmlspecialchars($usuario['email']) ?></p>
+          <?php endif; ?>
           
           <div class="perfil-actions">
-            <form id="formFoto" action="/chamba/web/router.php?page=perfil" method="post" enctype="multipart/form-data" style="display:inline-block;">
-              <input type="file" name="foto_perfil" id="foto" style="display:none;" onchange="document.getElementById('formFoto').submit();">
-              <button type="button" class="upload-btn" onclick="document.getElementById('foto').click();">
-                <?= $tieneFoto ? 'Cambiar foto' : 'Subir foto'; ?>
-              </button>
-            </form>
-            <a href="/chamba/web/router.php?page=editar-perfil" class="edit-btn">Editar Perfil</a>
+            <?php if ($esMiPerfil): ?>
+              <form id="formFoto" action="/chamba/web/router.php?page=perfil" method="post" enctype="multipart/form-data" style="display:inline-block;">
+                <input type="file" name="foto_perfil" id="foto" style="display:none;" onchange="document.getElementById('formFoto').submit();">
+                <button type="button" class="upload-btn" onclick="document.getElementById('foto').click();">
+                  <?= $tieneFoto ? 'Cambiar foto' : 'Subir foto'; ?>
+                </button>
+              </form>
+              <a href="/chamba/web/router.php?page=editar-perfil" class="edit-btn">Editar Perfil</a>
+            <?php else: ?>
+              <?php if (isset($_SESSION['usuario_id'])): ?>
+                <a href="/chamba/web/router.php?page=chat&contacto=<?= $usuario['id'] ?>" class="btn-contactar">
+                  💬 Enviar mensaje
+                </a>
+              <?php endif; ?>
+            <?php endif; ?>
           </div>
         <?php else: ?>
           <p style="color:red;">Datos de usuario no disponibles.</p>
@@ -70,7 +86,9 @@
         <?php if (!empty($usuario['descripcion'])): ?>
           <p><?= nl2br(htmlspecialchars($usuario['descripcion'])) ?></p>
         <?php else: ?>
-          <p class="sin-descripcion">Este usuario aún no ha agregado una descripción.</p>
+          <p class="sin-descripcion">
+            <?= $esMiPerfil ? 'Aún no has agregado una descripción.' : 'Este usuario aún no ha agregado una descripción.' ?>
+          </p>
         <?php endif; ?>
       </div>
     </div>
@@ -78,7 +96,7 @@
 
   <!-- Publicaciones del usuario -->
   <section class="perfil-publicaciones">
-    <h3>Mis Publicaciones</h3>
+    <h3><?= $esMiPerfil ? 'Mis Publicaciones' : 'Publicaciones de ' . htmlspecialchars($usuario['nombre']) ?></h3>
 
     <?php if (!empty($misPublicaciones)): ?>
       <div class="publicaciones">
@@ -105,7 +123,9 @@
         <?php endforeach; ?>
       </div>
     <?php else: ?>
-      <p class="sin-publicaciones">Aún no has creado publicaciones.</p>
+      <p class="sin-publicaciones">
+        <?= $esMiPerfil ? 'Aún no has creado publicaciones.' : 'Este usuario no tiene publicaciones aún.' ?>
+      </p>
     <?php endif; ?>
   </section>
 

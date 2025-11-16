@@ -115,3 +115,24 @@ button:hover {
     border-radius: 0.3rem;
     background: #476a30;
 }
+
+.campo-cedula {
+    width: 100%;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.campo-cedula input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.cedula-status {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}

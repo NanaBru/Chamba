@@ -69,14 +69,17 @@
             <div class="chat-header">
                 <a href="/chamba/web/router.php?page=chat" class="btn-volver-lista">← Volver</a>
                 <div class="contacto-info">
-                    <div class="contacto-avatar">
-                        <?php if (!empty($contacto['foto_perfil'])): ?>
-                            <img src="/chamba/web/datos/usuarios/<?= htmlspecialchars($contacto['foto_perfil']) ?>" alt="">
-                        <?php else: ?>
-                            <span><?= strtoupper(substr($contacto['nombre'], 0, 1)) ?></span>
-                        <?php endif; ?>
-                    </div>
-                    <h2><?= htmlspecialchars($contacto['nombre'] . ' ' . $contacto['apellido']) ?></h2>
+                    <a href="/chamba/web/router.php?page=perfil&id=<?= $contacto_id ?>" class="contacto-info">
+    <div class="contacto-avatar">
+        <?php if (!empty($contacto['foto_perfil'])): ?>
+            <img src="/chamba/web/datos/usuarios/<?= htmlspecialchars($contacto['foto_perfil']) ?>" alt="">
+        <?php else: ?>
+            <span><?= strtoupper(substr($contacto['nombre'], 0, 1)) ?></span>
+        <?php endif; ?>
+    </div>
+    <h2><?= htmlspecialchars($contacto['nombre'] . ' ' . $contacto['apellido']) ?></h2>
+</a>
+
                 </div>
                 
                 <!-- Botones de acción -->
@@ -91,7 +94,18 @@
                         <button onclick="mostrarSolicitudResena()" class="btn-solicitar-resena">Solicitar reseña</button>
                     <?php endif; ?>
                 </div>
+                <?php if ($esProveedor): ?>
+    <button onclick="mostrarFactura()" class="btn-enviar-factura">💳 Enviar Factura</button>
+<?php endif; ?>
+
+<?php if (!empty($facturasPendientes)): ?>
+    <a href="/chamba/web/router.php?page=mis-facturas" class="btn-facturas">
+        💰 Facturas (<?= count($facturasPendientes) ?>)
+    </a>
+<?php endif; ?>
+
             </div>
+
 
             <!-- Mensajes -->
             <div class="mensajes-contenedor" id="mensajesContenedor">
@@ -121,6 +135,59 @@
             </div>
         <?php endif; ?>
     </section>
+
+    <!-- Modal para enviar factura -->
+<?php if ($esProveedor && $contacto): ?>
+<div id="modalFactura" class="modal-solicitud">
+    <div class="modal-contenido">
+        <h3>Enviar Factura de Servicio</h3>
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" name="enviar_factura" value="1">
+            
+            <!-- Seleccionar publicación (opcional) -->
+            <?php if (!empty($misPublicaciones)): ?>
+            <div class="form-group">
+                <label>Servicio relacionado (opcional):</label>
+                <select name="publicacion_id_factura" class="form-control">
+                    <option value="">Sin servicio específico</option>
+                    <?php foreach ($misPublicaciones as $pub): ?>
+                        <option value="<?= $pub['id'] ?>"><?= htmlspecialchars($pub['titulo']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <?php endif; ?>
+            
+            <!-- Descripción del trabajo -->
+            <div class="form-group">
+                <label>Descripción del trabajo realizado: *</label>
+                <textarea name="descripcion_factura" required rows="4" class="form-control" 
+                          placeholder="Describe el trabajo que realizaste..."></textarea>
+            </div>
+            
+            <!-- Monto -->
+            <div class="form-group">
+                <label>Monto a cobrar: *</label>
+                <input type="number" name="monto_factura" required step="0.01" min="0.01" 
+                       class="form-control" placeholder="0.00">
+            </div>
+            
+            <!-- Fotos del trabajo -->
+            <div class="form-group">
+                <label>Fotos del trabajo (máx. 5):</label>
+                <input type="file" name="fotos_factura[]" accept="image/*" multiple 
+                       class="form-control" id="fotosFactura" onchange="previsualizarFotos(this)">
+                <div id="preview-fotos" class="preview-fotos"></div>
+            </div>
+            
+            <div class="modal-botones">
+                <button type="submit" class="btn-enviar-modal">Enviar Factura</button>
+                <button type="button" onclick="cerrarModalFactura()" class="btn-cancelar-modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<?php endif; ?>
+
 </main>
 
 <!-- Modal para seleccionar publicación -->
@@ -168,7 +235,7 @@ if (textarea) {
     });
 }
 
-// Modal de solicitud
+// Modal de solicitud de reseña
 function mostrarSolicitudResena() {
     document.getElementById('modalSolicitud').style.display = 'flex';
 }
@@ -177,14 +244,54 @@ function cerrarModal() {
     document.getElementById('modalSolicitud').style.display = 'none';
 }
 
-// Cerrar modal al hacer clic fuera
+// Modal de factura
+function mostrarFactura() {
+    document.getElementById('modalFactura').style.display = 'flex';
+}
+
+function cerrarModalFactura() {
+    document.getElementById('modalFactura').style.display = 'none';
+    document.getElementById('preview-fotos').innerHTML = '';
+}
+
+// Previsualizar fotos
+function previsualizarFotos(input) {
+    const preview = document.getElementById('preview-fotos');
+    preview.innerHTML = '';
+    
+    if (input.files) {
+        const maxFiles = Math.min(input.files.length, 5);
+        
+        for (let i = 0; i < maxFiles; i++) {
+            const file = input.files[i];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'preview-img';
+                preview.appendChild(img);
+            }
+            
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
+// Cerrar modales al hacer clic fuera
 window.onclick = function(event) {
-    const modal = document.getElementById('modalSolicitud');
-    if (event.target == modal) {
+    const modalSolicitud = document.getElementById('modalSolicitud');
+    const modalFactura = document.getElementById('modalFactura');
+    
+    if (event.target == modalSolicitud) {
         cerrarModal();
+    }
+    if (event.target == modalFactura) {
+        cerrarModalFactura();
     }
 }
 </script>
+
 
 <script src="/chamba/web/vista/assets/js/script.js"></script>
 </body>

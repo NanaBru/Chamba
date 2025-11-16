@@ -12,31 +12,41 @@ class Usuario {
     // ==============================
     // REGISTRAR NUEVO USUARIO (rol por defecto: 'usuario')
     // ==============================
-    public function registrarUsuario($nombre, $apellido, $edad, $telefono, $email, $password_plano, $descripcion = null) {
-        $conn = $this->conexion->getConexion();
+    public function registrarUsuario($nombre, $apellido, $edad, $telefono, $email, $password_plano, $descripcion = null, $cedula = null) {
+    $conn = $this->conexion->getConexion();
 
-        // Duplicados
-        $stmt = $conn->prepare("SELECT id FROM usuario WHERE email = ? OR telefono = ?");
-        $stmt->bind_param("ss", $email, $telefono);
+    // Duplicados
+    $stmt = $conn->prepare("SELECT id FROM usuario WHERE email = ? OR telefono = ?");
+    $stmt->bind_param("ss", $email, $telefono);
+    $stmt->execute();
+    if ($stmt->get_result()->num_rows > 0) {
+        return ['success' => false, 'mensaje' => 'Email o teléfono ya registrado'];
+    }
+
+    // Verificar cédula duplicada (si se proporciona)
+    if (!empty($cedula)) {
+        $stmt = $conn->prepare("SELECT id FROM usuario WHERE cedula = ?");
+        $stmt->bind_param("s", $cedula);
         $stmt->execute();
         if ($stmt->get_result()->num_rows > 0) {
-            return ['success' => false, 'mensaje' => 'Email o teléfono ya registrado'];
+            return ['success' => false, 'mensaje' => 'Cédula ya registrada'];
         }
-
-        $hash = password_hash($password_plano, PASSWORD_BCRYPT);
-        $rol = 'usuario';
-
-        $sql = "INSERT INTO usuario (nombre, apellido, edad, telefono, email, password, rol, descripcion) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        // ssisssss: nombre(s) apellido(s) edad(i) telefono(s) email(s) password(s) rol(s) descripcion(s)
-        $stmt->bind_param("ssisssss", $nombre, $apellido, $edad, $telefono, $email, $hash, $rol, $descripcion);
-
-        if ($stmt->execute()) {
-            return ['success' => true, 'id' => $stmt->insert_id];
-        }
-        return ['success' => false, 'mensaje' => 'No se pudo registrar'];
     }
+
+    $hash = password_hash($password_plano, PASSWORD_BCRYPT);
+    $rol = 'usuario';
+
+    $sql = "INSERT INTO usuario (nombre, apellido, edad, telefono, cedula, email, password, rol, descripcion) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssissssss", $nombre, $apellido, $edad, $telefono, $cedula, $email, $hash, $rol, $descripcion);
+
+    if ($stmt->execute()) {
+        return ['success' => true, 'id' => $stmt->insert_id];
+    }
+    return ['success' => false, 'mensaje' => 'No se pudo registrar'];
+}
+
 
     // ==============================
     // LOGIN (no exige rol; devuelve el array del usuario si es válido)
